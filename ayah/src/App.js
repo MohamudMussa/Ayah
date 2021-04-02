@@ -1,12 +1,13 @@
 import './App.css';
 import Ayah from './components/Ayah';
 
+
 function App() {
   return (
     <div class=''>
       <header >
-
         <Ayah />
+
       </header>
     </div>
   );
