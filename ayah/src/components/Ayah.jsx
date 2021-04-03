@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import background from '../images/image6.jpg'
+import background from '../images/image2.jpg'
 
 
 const Ayah = () => {
@@ -8,6 +8,8 @@ const Ayah = () => {
   const [ayah, setAyah] = useState([''])
 
   const [surah, setSurah] = useState([''])
+
+  const [eng, setEng] = useState([''])
 
 
 
@@ -24,7 +26,9 @@ const Ayah = () => {
     ])
     .then(axios.spread((urlArabic, urlEnglish) => {
         setAyah(urlArabic.data.data);
+        console.log(urlArabic.data.data)
         setSurah(urlArabic.data.data.surah);
+        setEng(urlEnglish.data.data);
         console.log(urlEnglish.data.data);
       }))
   }, []);
@@ -52,24 +56,29 @@ const Ayah = () => {
 
               <div >
 
-                <h2 class="text-base font-medium text-xl text-white	 text-center	"> ۞ {ayah.text}  </h2>
+                <h2 class="text-base font-medium text-xl text-white	 text-center	">   ۞ {ayah.text}   </h2>   
+              
+              
                 <div class="pt-6"></div>
                 
-
+                <h5 class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text}  </h5>
 
 
                 <div class="pt-8"></div>
-                <h1 class="text-center font-mono text-xs text-center text-whitetext-white	"> Revealed In {surah.revelationType}  </h1>
+                <h1 class="text-center font-mono text-xs text-center text-white	"> Revealed In {surah.revelationType}  </h1>
 
     
               </div>
               <div class="flex justify-center space-x-3 md:justify-end items-end">
+                
                 <button class="bg-blue rounded-3xl md:flex-rows">
                   <div class="pt-6"></div>
               
                 </button>
               </div>
             </div>
+            <h5 class="text-right  font-mono  text-xs text-white text-opacity-50	 text-center	"> ({surah.number}/{eng.numberInSurah})   </h5>
+
           </div>
         </div>
       </div>
