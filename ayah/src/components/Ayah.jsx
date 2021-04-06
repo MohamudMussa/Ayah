@@ -3,6 +3,7 @@ import axios from 'axios'
 import background from '../images/image2.jpg'
 
 
+
 const Ayah = () => {
 
   const [ayah, setAyah] = useState([''])
@@ -18,6 +19,7 @@ const Ayah = () => {
   const ayahNumb = Math.floor(Math.random() * 6236) + 1
   const urlEnglish = `https://api.alquran.cloud/ayah/${ayahNumb}/en.asad`
   const urlArabic = `https://api.alquran.cloud/ayah/${ayahNumb}`
+  const quranApi = `https://api.quran.com/api/v4/verses/random?language=en&words=true`
 
   useEffect(() => {
     axios.all([
