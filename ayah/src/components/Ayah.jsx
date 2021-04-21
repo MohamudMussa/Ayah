@@ -14,12 +14,12 @@ const Ayah = () => {
 
 
 
-  const apiURL = 'https://api.quran.com/api/v4/verses/random?language=en&words=true';
+  // const apiURL = 'https://api.quran.com/api/v4/verses/random?language=en&words=true';
 
   const ayahNumb = Math.floor(Math.random() * 6236) + 1
   const urlEnglish = `https://api.alquran.cloud/ayah/${ayahNumb}/en.asad`
   const urlArabic = `https://api.alquran.cloud/ayah/${ayahNumb}`
-  const quranApi = `https://api.quran.com/api/v4/verses/random?language=en&words=true`
+  // const quranApi = `https://api.quran.com/api/v4/verses/random?language=en&words=true`
 
   useEffect(() => {
     axios.all([
@@ -28,14 +28,14 @@ const Ayah = () => {
     ])
     .then(axios.spread((urlArabic, urlEnglish) => {
         setAyah(urlArabic.data.data);
-        console.log(urlArabic.data.data)
+        // console.log(urlArabic.data.data)
         setSurah(urlArabic.data.data.surah);
         setEng(urlEnglish.data.data);
-        console.log(urlEnglish.data.data);
+        // console.log(urlEnglish.data.data);
       }))
   }, []);
 
-  const images = ['',  ]
+  // const images = ['',  ]
 
   return (
 
