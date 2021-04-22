@@ -70,10 +70,10 @@ const Ayah = () => {
   return (
 
 
-    <div class=" flex items-center justify-center min-h-screen bg-gray-600" style={{ backgroundImage: `url(${background})` }}>
+    <div class="bg-sky flex items-center justify-center min-h-screen bg-gray-600 ">
       
        
-      <div class="max-w-5xl  p-4 m-6  rounded-3xl shadow-xl 	"  style={{ backgroundImage: `url('${background}')` }}>
+      <div class="max-w-5xl  p-4 m-6  rounded-3xl shadow-xl  	"  style={{ backgroundImage: `url('${background}')` }}>
 
 
         <div class="bg-fixed">  
@@ -91,11 +91,11 @@ const Ayah = () => {
 
               <div >
 
-                <h2 class="text-base font-medium text-xl text-white	 text-center	">   ۞ {ayah.text?ayah.text :  <Backdrop className={classes.backdrop} open>
+                <h2 class="text-base font-medium text-xl text-white	 text-center	">   ۞ {ayah.text}  </h2>   
+              
+                {/* ?ayah.text :  <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
-      </Backdrop>}   </h2>   
-              
-              
+      </Backdrop> */}
                 <div class="pt-6"></div>
                 
                 <h5 class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text}  </h5>
