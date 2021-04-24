@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import background from '../images/image2.jpg'
+import ReactAudioPlayer from 'react-audio-player';
+
 
 
 // import { makeStyles } from '@material-ui/core/styles';
@@ -25,6 +27,8 @@ const Ayah = () => {
   const [surah, setSurah] = useState([''])
 
   const [eng, setEng] = useState([''])
+  
+  const [audio, setAudio] = useState('')
 
   // const bck = ['../images/image2.jpg', '../images/image1.jpg', '../images/image3.jpg']
 
@@ -33,8 +37,10 @@ const Ayah = () => {
 
 
   const ayahNumb = Math.floor(Math.random() * 6236) + 1
-  const urlEnglish = `https://api.alquran.cloud/ayah/${ayahNumb}/en.asad`
+  const urlEnglish = `https://api.alquran.cloud/ayah/${ayahNumb}/en.sahih`
   const urlArabic = `https://api.alquran.cloud/ayah/${ayahNumb}`
+  const ayahAudio = `http://api.alquran.cloud/v1/ayah/${ayahNumb}/ar.alafasy`
+
 
 
   
@@ -42,28 +48,36 @@ const Ayah = () => {
     axios.all([
       axios.get(urlArabic),
       axios.get(urlEnglish)
+     
     ])
     .then(axios.spread((urlArabic,  urlEnglish) => {
-        setAyah(urlArabic.data.data);
+
         setSurah(urlArabic.data.data.surah);
         setEng(urlEnglish.data.data);
+        setAyah(urlArabic.data.data);
       
-      }))
-
+      }, []))
+      
   }
 
   useEffect(() => { 
     axios.all([
       axios.get(urlArabic),
-      axios.get(urlEnglish)
+      axios.get(urlEnglish),
+      axios.get(ayahAudio)
     ])
-    .then(axios.spread((urlArabic,  urlEnglish) => {
-        setAyah(urlArabic.data.data);
+    .then(axios.spread((urlArabic, urlEnglish, ayahAudio) => {
+        
+      setAudio(ayahAudio.data.data.audio)
+
+      setAyah(urlArabic.data.data);
   
         setSurah(urlArabic.data.data.surah);
         setEng(urlEnglish.data.data);
       }))
-  },  [urlArabic, urlEnglish]);
+  },  []);
+
+
 
 
 
@@ -105,9 +119,26 @@ const Ayah = () => {
                 <div class="pt-8"></div>
                 <h1 class="text-center  font-mono text-xs text-center text-white	">  {surah.revelationType} Ayah </h1>
 
+
+{/* 
+                <ReactAudioPlayer
+                className="audio"
+  src={audio}
+  autoPlay='false'
+  controls
+
+/> */}
     
               </div >
-      
+
+
+
+              
+              {/* <buttom onClick={playAyah}> 
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+</svg>
+              </buttom> */}
             </div>
             <h5 class="text-right pb-2.5  font-mono  text-xs text-white text-opacity-50	 text-center	"> - {surah.number}:{eng.numberInSurah} -   </h5>
             
