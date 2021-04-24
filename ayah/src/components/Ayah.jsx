@@ -113,7 +113,7 @@ const Ayah = () => {
       </Backdrop> */}
                 <div class="pt-6"></div>
                 
-                <h5 class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh button to reveal an Ayah'}  </h5>
+                <h5 class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon to reveal an Ayah'}  </h5>
 
 
                 <div class="pt-8"></div>
