@@ -1,4 +1,3 @@
-import './App.css';
 import Ayah from './components/Ayah';
 
 
