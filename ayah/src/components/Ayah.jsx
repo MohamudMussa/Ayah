@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import background from '../images/image2.jpg'
+import background from '../images/image6.jpg'
 import ReactAudioPlayer from 'react-audio-player';
 
 
@@ -84,7 +84,7 @@ const Ayah = () => {
   return (
 
 
-    <div class="bg-sky flex items-center justify-center min-h-screen ">
+    <div onClick={refreshPage} class=" flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')` }}>
       
    
        
@@ -113,7 +113,7 @@ const Ayah = () => {
       </Backdrop> */}
                 <div class="pt-6"></div>
                 
-                <h5 class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon to reveal an Ayah'}  </h5>
+                <h5 onClick={refreshPage} class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon or anywhere to reveal an Ayah'}  </h5>
 
 
                 <div class="pt-8"></div>
