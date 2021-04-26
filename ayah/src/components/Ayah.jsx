@@ -3,6 +3,12 @@ import axios from 'axios'
 import background from '../images/image6.jpg'
 import ReactAudioPlayer from 'react-audio-player';
 
+import ReactGA from 'react-ga';
+
+const trackingId = "UA-47496938-1"; // Replace with your Google Analytics tracking ID
+ReactGA.initialize(trackingId);
+
+
 
 
 // import { makeStyles } from '@material-ui/core/styles';
