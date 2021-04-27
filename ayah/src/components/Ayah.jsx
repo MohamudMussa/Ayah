@@ -90,7 +90,7 @@ const Ayah = () => {
   return (
 
 
-    <div onClick={refreshPage} class=" flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')` }}>
+    <div onClick={refreshPage} class=" flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')`, backgroundSize: 'cover' }}>
       
    
        
