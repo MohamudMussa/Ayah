@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import background from '../images/image6.jpg'
+import background from '../images/image8.jfif'
 import ReactAudioPlayer from 'react-audio-player';
 
 import ReactGA from 'react-ga';
