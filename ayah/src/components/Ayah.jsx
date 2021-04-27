@@ -4,6 +4,7 @@ import background from '../images/image9.jfif'
 import ReactAudioPlayer from 'react-audio-player';
 
 import ReactGA from 'react-ga';
+import Search from './Search';
 
 const trackingId = "UA-47496938-1"; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
@@ -148,12 +149,21 @@ const Ayah = () => {
             </div>
             <h5 class="text-right pb-2.5  font-mono  text-xs text-white text-opacity-50	 text-center	"> - {surah.number}:{eng.numberInSurah} -   </h5>
             
-            <button type="button" onClick={refreshPage}> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="white">
+            <button type="button"  class='pr-2' onClick={refreshPage}> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="white">
   <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
 </svg> </button>
 
-<p class="text-black text-opacity-25 ... font-mono text-sm text-centre ">Aayah.app</p>
+<button type="button"> 
 
+<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+
+</button>
+
+
+<p class="text-black text-opacity-25 ... font-mono text-sm text-centre ">Aayah.app</p>
+<Search/>
 
           </div>
         </div>
