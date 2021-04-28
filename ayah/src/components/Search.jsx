@@ -6,6 +6,8 @@ import {Modal, Button, Form, Col} from 'react-bootstrap'
 const Search = () => {
 
     const [smShow, setSmShow] = useState(false);
+    const [surah, setSurah] = useState('')
+    const [aayah, setAayah] = useState('')
 
     return (
         <>
@@ -31,7 +33,9 @@ const Search = () => {
             <Form class="text-black text-opacity-25 ... font-mono text-sm text-centre" >
   <Form.Row>
     <Col>
-      <Form.Control placeholder="Suran Numb" />
+      <Form.Control placeholder="Suran Numb"
+      value={setSurah}
+      onChange={(e) => {setSurah(e.target.value)}} />
     </Col>
     <Col>
       <Form.Control placeholder="Ayah Numb" />
