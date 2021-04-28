@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Modal} from 'react-bootstrap'
 import logo from '../images/new.png'
 import axios from 'axios'
-import background from '../images/image6.jpg'
+import background from '../images/pinkUs.jfif'
 import ReactAudioPlayer from 'react-audio-player';
 
 import ReactGA from 'react-ga';
@@ -41,7 +41,44 @@ const Ayah = () => {
 
 
   //Random Ayah Gen
-  const ayahNumb = Math.floor(Math.random() * 6236) + 1
+  let ayahNumb = Math.floor(Math.random() * 6236) + 1
+ 
+  
+  const forward = () => {
+
+    const forwardd = ayahNumb++
+    
+    console.log(forwardd)
+
+    const aa = `https://api.alquran.cloud/ayah/${forwardd}/en.sahih`
+    const bb = `https://api.alquran.cloud/ayah/${forwardd}`
+    const cc = `http://api.alquran.cloud/v1/ayah/${forwardd}/ar.hudhaify`
+
+    console.log(aa)
+
+
+     axios.all([
+      axios.get(aa),
+      axios.get(bb),
+      axios.get(cc)
+    
+    ])
+    .then(axios.spread((aa,  bb, cc) => {
+        setSurah(aa.data.data.surah);
+        setEng(aa.data.data);
+        setAyah(bb.data.data);
+        setAudio(cc.data.data.audio)
+
+      }, []))
+    
+  }
+
+   
+
+
+ 
+
+  // random ayah gen
   const urlEnglish = `https://api.alquran.cloud/ayah/${ayahNumb}/en.sahih`
   const urlArabic = `https://api.alquran.cloud/ayah/${ayahNumb}`
   const ayahAudio = `http://api.alquran.cloud/v1/ayah/${ayahNumb}/ar.hudhaify`
@@ -82,13 +119,11 @@ const Ayah = () => {
       axios.get(ayahAudio)
     ])
     .then(axios.spread((urlArabic, urlEnglish, ayahAudio) => {
-        
+      
       setAudio(ayahAudio.data.data.audio)
-
       setAyah(urlArabic.data.data);
-  
-        setSurah(urlArabic.data.data.surah);
-        setEng(urlEnglish.data.data);
+      setSurah(urlArabic.data.data.surah);
+      setEng(urlEnglish.data.data);
       }))
   },  []);
 
@@ -152,6 +187,22 @@ const Ayah = () => {
 
                 <h2 class="text-base font-medium text-xl text-white	 text-center	"
                 style={{alignSelf: "center", writingDirection: "rlt"}}>   {ayah.text}      </h2>
+
+{/* <button> 
+
+<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+</svg>
+
+                </button>
+
+                <button> 
+
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+
+                </button> */}
 {/* ۞ */}
               
                 {/* ?ayah.text :  <Backdrop className={classes.backdrop} open>
@@ -159,7 +210,7 @@ const Ayah = () => {
       </Backdrop> */}
                 <div class="pt-6"></div>
                 
-                <h5 onClick={refreshPage} class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon or anywhere to reveal an Ayah'}  </h5>
+                <h5  class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon or anywhere to reveal an Ayah'}  </h5>
 
 
                 <div class="pt-8"></div>
