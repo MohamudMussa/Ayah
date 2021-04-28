@@ -113,7 +113,7 @@ const Ayah = () => {
 
               <div >
 
-                <h2 class="text-base font-medium text-xl text-white	 text-center	">   ۞ {ayah.text}  </h2>   
+                <h2 class="text-base font-medium text-xl text-white	 text-center	">   {ayah.text}  </h2>   
               
                 {/* ?ayah.text :  <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
