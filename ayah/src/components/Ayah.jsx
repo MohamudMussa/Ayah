@@ -50,12 +50,16 @@ const Ayah = () => {
   const [suraah, setSuraah] = useState('')
   const [aayah, setAayah] = useState('')
 
+  //Audio Modal
+  const [smAudio, setSmAudio] = useState(false);
+
+
 
   //Random Ayah Gen
   const ayahNumb = Math.floor(Math.random() * 6236) + 1
   const urlEnglish = `https://api.alquran.cloud/ayah/${ayahNumb}/en.sahih`
   const urlArabic = `https://api.alquran.cloud/ayah/${ayahNumb}`
-  const ayahAudio = `http://api.alquran.cloud/v1/ayah/${ayahNumb}/ar.alafasy`
+  const ayahAudio = `http://api.alquran.cloud/v1/ayah/${ayahNumb}/ar.hudhaify`
 
 
   //Ayah Search
@@ -110,6 +114,7 @@ const Ayah = () => {
       axios.get(searchedEnglish)
      
     ])
+    
     .then(axios.spread((searchedArabic,  searchedEnglish) => {
 
         setSurah(searchedArabic.data.data.surah);
@@ -166,15 +171,6 @@ const Ayah = () => {
                 <div class="pt-8"></div>
                 <h1 class="text-center  font-mono text-xs text-center text-white	">  {surah.revelationType} Ayah </h1>
 
-
-{/* 
-                <ReactAudioPlayer
-                className="audio"
-  src={audio}
-  autoPlay='false'
-  controls
-
-/> */}
     
               </div >
 
@@ -254,6 +250,41 @@ const Ayah = () => {
 
             </Modal.Body>
           </Modal>
+
+
+          <button onClick={() => setSmAudio(true)}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+              </button>
+              
+          <Modal
+            className="opacity-80 rounded-3xl shadow-xl "
+
+            size="sm"
+            keyboard="true"
+            show={smAudio}
+            onHide={() => setSmAudio(false)}
+      centered
+          >
+
+            
+<div class="flex items-center justify-center  bg-red-lightest"
+style={{background: '#F0F0F0	'}}> 
+        
+                <ReactAudioPlayer
+                
+  src={audio}
+
+  controls
+
+/>
+</div>
+          </Modal>
+
+    
+          
         
 
 
@@ -261,6 +292,8 @@ const Ayah = () => {
 
 
           </div>
+       
+        
         </div>
       </div>
     </div>
