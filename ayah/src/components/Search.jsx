@@ -39,6 +39,8 @@ const Search = () => {
                 <lable> Surah </lable>
 
                 <input 
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+
                 type="text"
                 value={surah}
                 onChange={(e) => {setSurah(e.target.value)}}
@@ -46,14 +48,21 @@ const Search = () => {
 
                 />
 
-                <lable> Aayah </lable>
               
                 <input type="text"
+                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Enter Aayah Number"
                 value={aayah}
                 onChange={(e) => {setAayah(e.target.value)}}
                 
                 />
-                <button onClick={print}> test </button>
+                <button onClick={print}
+                              type="submit"
+
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                > <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg> </button>
             
 
             
