@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Modal} from 'react-bootstrap'
 import logo from '../images/new.png'
 import axios from 'axios'
-import background from '../images/pinkUs.jfif'
+import background from '../images/image6.jpg'
 import ReactAudioPlayer from 'react-audio-player';
 
 import ReactGA from 'react-ga';
@@ -275,6 +275,7 @@ const Ayah = () => {
 
                 />
 
+
 <div class="pt-6 ..."/>
 
                 <lable
@@ -290,6 +291,11 @@ const Ayah = () => {
                 
                 />
                 <div class="pt-6 ..."/>
+
+                
+              
+
+
                 <button onClick={print}
                               type="submit"
 
