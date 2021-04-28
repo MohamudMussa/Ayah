@@ -6,27 +6,10 @@ import background from '../images/image6.jpg'
 import ReactAudioPlayer from 'react-audio-player';
 
 import ReactGA from 'react-ga';
-import Search from './Search';
 
 const trackingId = "UA-47496938-1"; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
 
-//modal 
-
-
-
-
-
-// import { makeStyles } from '@material-ui/core/styles';
-
-
-
-// const useStyles = makeStyles((theme) => ({
-//   backdrop: {
-//     zIndex: theme.zIndex.drawer + 1,
-//     color: '#fff',
-//   },
-// }));
 
 
 
@@ -47,6 +30,8 @@ const Ayah = () => {
   //Search Modal 
 
   const [smShow, setSmShow] = useState(false);
+  const handleClose = () => setSmShow(false);
+
   const [suraah, setSuraah] = useState('')
   const [aayah, setAayah] = useState('')
 
@@ -67,7 +52,7 @@ const Ayah = () => {
   const searchedAyah = `${suraah}:${aayah}`
   const searchedEnglish = `https://api.alquran.cloud/ayah/${searchedAyah}/en.sahih`
   const searchedArabic = `https://api.alquran.cloud/ayah/${searchedAyah}`
-  const searchedAudio = `http://api.alquran.cloud/v1/ayah/${searchedAyah}/ar.alafasy`
+  const searchedAudio = `http://api.alquran.cloud/v1/ayah/${searchedAyah}/ar.hudhaify`
 
 
 
@@ -75,15 +60,17 @@ const Ayah = () => {
   const refreshPage = () => {
     axios.all([
       axios.get(urlArabic),
-      axios.get(urlEnglish)
+      axios.get(urlEnglish),
+      axios.get(ayahAudio)
      
     ])
-    .then(axios.spread((urlArabic,  urlEnglish) => {
+    .then(axios.spread((urlArabic,  urlEnglish, ayahAudio) => {
 
         setSurah(urlArabic.data.data.surah);
         setEng(urlEnglish.data.data);
         setAyah(urlArabic.data.data);
-      
+        setAudio(ayahAudio.data.data.audio)
+
       }, []))
       
   }
@@ -111,15 +98,18 @@ const Ayah = () => {
   const print = () => {
     axios.all([
       axios.get(searchedArabic),
-      axios.get(searchedEnglish)
+      axios.get(searchedEnglish),
+      axios.get(searchedAudio)
      
     ])
     
-    .then(axios.spread((searchedArabic,  searchedEnglish) => {
+    .then(axios.spread((searchedArabic,  searchedEnglish, searchedAudio ) => {
 
         setSurah(searchedArabic.data.data.surah);
         setEng(searchedEnglish.data.data);
         setAyah(searchedArabic.data.data);
+        setAudio(searchedAudio.data.data.audio)
+
 
         
         
@@ -256,6 +246,7 @@ const Ayah = () => {
                 > <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg> </button>
+            
             
 
             
