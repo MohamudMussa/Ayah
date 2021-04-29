@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {Modal} from 'react-bootstrap'
 import logo from '../images/new.png'
 import axios from 'axios'
+
 import background from '../images/image6.jpg'
+
 import ReactAudioPlayer from 'react-audio-player';
 
 import ReactGA from 'react-ga';
@@ -185,6 +187,7 @@ const Ayah = () => {
 
               <div >
 
+
                 <h2 class="text-base font-medium text-xl text-white	 text-center	"
                 style={{alignSelf: "center", writingDirection: "rlt"}}>   {ayah.text}      </h2>
 
@@ -204,13 +207,16 @@ const Ayah = () => {
 
                 </button> */}
 {/* ۞ */}
+
               
                 {/* ?ayah.text :  <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
       </Backdrop> */}
                 <div class="pt-6"></div>
                 
+
                 <h5  class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon or anywhere to reveal an Ayah'}  </h5>
+
 
 
                 <div class="pt-8"></div>
