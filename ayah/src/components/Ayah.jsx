@@ -83,7 +83,7 @@ const Ayah = () => {
   // random ayah gen
   const urlEnglish = `https://api.alquran.cloud/ayah/${ayahNumb}/en.sahih`
   const urlArabic = `https://api.alquran.cloud/ayah/${ayahNumb}`
-  const ayahAudio = `http://api.alquran.cloud/v1/ayah/${ayahNumb}/ar.hudhaify`
+  const ayahAudio = `https://api.alquran.cloud/v1/ayah/${ayahNumb}/ar.hudhaify`
 
 
   //Ayah Search
@@ -91,7 +91,7 @@ const Ayah = () => {
   const searchedAyah = `${suraah}:${aayah}`
   const searchedEnglish = `https://api.alquran.cloud/ayah/${searchedAyah}/en.sahih`
   const searchedArabic = `https://api.alquran.cloud/ayah/${searchedAyah}`
-  const searchedAudio = `http://api.alquran.cloud/v1/ayah/${searchedAyah}/ar.hudhaify`
+  const searchedAudio = `https://api.alquran.cloud/v1/ayah/${searchedAyah}/ar.hudhaify`
 
 
 
