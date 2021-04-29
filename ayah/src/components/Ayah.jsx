@@ -32,7 +32,7 @@ const Ayah = () => {
   //Search Modal 
 
   const [smShow, setSmShow] = useState(false);
-  const handleClose = () => setSmShow(false);
+  // const handleClose = () => setSmShow(false);
 
   const [suraah, setSuraah] = useState('')
   const [aayah, setAayah] = useState('')
@@ -46,34 +46,34 @@ const Ayah = () => {
   let ayahNumb = Math.floor(Math.random() * 6236) + 1
  
   
-  const forward = () => {
+  // const forward = () => {
 
-    const forwardd = ayahNumb++
+  //   const forwardd = ayahNumb++
     
-    console.log(forwardd)
+  //   console.log(forwardd)
 
-    const aa = `https://api.alquran.cloud/ayah/${forwardd}/en.sahih`
-    const bb = `https://api.alquran.cloud/ayah/${forwardd}`
-    const cc = `http://api.alquran.cloud/v1/ayah/${forwardd}/ar.hudhaify`
+  //   const aa = `https://api.alquran.cloud/ayah/${forwardd}/en.sahih`
+  //   const bb = `https://api.alquran.cloud/ayah/${forwardd}`
+  //   const cc = `http://api.alquran.cloud/v1/ayah/${forwardd}/ar.hudhaify`
 
-    console.log(aa)
+  //   console.log(aa)
 
 
-     axios.all([
-      axios.get(aa),
-      axios.get(bb),
-      axios.get(cc)
+  //    axios.all([
+  //     axios.get(aa),
+  //     axios.get(bb),
+  //     axios.get(cc)
     
-    ])
-    .then(axios.spread((aa,  bb, cc) => {
-        setSurah(aa.data.data.surah);
-        setEng(aa.data.data);
-        setAyah(bb.data.data);
-        setAudio(cc.data.data.audio)
+  //   ])
+  //   .then(axios.spread((aa,  bb, cc) => {
+  //       setSurah(aa.data.data.surah);
+  //       setEng(aa.data.data);
+  //       setAyah(bb.data.data);
+  //       setAudio(cc.data.data.audio)
 
-      }, []))
+  //     }, []))
     
-  }
+  // }
 
    
 
