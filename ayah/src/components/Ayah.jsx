@@ -140,6 +140,7 @@ const Ayah = () => {
      
     ])
     
+    
     .then(axios.spread((searchedArabic,  searchedEnglish, searchedAudio ) => {
 
         setSurah(searchedArabic.data.data.surah);
@@ -215,7 +216,7 @@ const Ayah = () => {
                 <div class="pt-6"></div>
                 
 
-                <h5  class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon or anywhere to reveal an Ayah'}  </h5>
+                <h5  class="text-base  font-mono font-medium text-xs text-white	 text-center	"> - {eng.text ? eng.text : 'Click the refresh icon below to reveal an Ayah'}  </h5>
 
 
 
