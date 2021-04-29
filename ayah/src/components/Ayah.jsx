@@ -140,9 +140,8 @@ const Ayah = () => {
      
     ])
     
-    
     .then(axios.spread((searchedArabic,  searchedEnglish, searchedAudio ) => {
-
+      
         setSurah(searchedArabic.data.data.surah);
         setEng(searchedEnglish.data.data);
         setAyah(searchedArabic.data.data);
