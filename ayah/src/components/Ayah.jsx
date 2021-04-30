@@ -3,7 +3,9 @@ import {Modal} from 'react-bootstrap'
 import logo from '../images/new.png'
 import axios from 'axios'
 
-import background from '../images/image6.jpg'
+import background from '../images/pinkUs.jfif'
+import grain from '../images/grain.jpg'
+
 
 import ReactAudioPlayer from 'react-audio-player';
 
@@ -164,8 +166,8 @@ const Ayah = () => {
 
   return (
 
-
-    <div  class=" flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')`, backgroundSize: 'cover' }}>
+      
+    <div  class="flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')`, backgroundSize: 'cover' }}>
       
    
        
@@ -364,7 +366,6 @@ style={{background: '#F0F0F0	'}}>
       </div>
     </div>
     </div>
-
   )
 }
 
