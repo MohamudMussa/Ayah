@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import {Modal} from 'react-bootstrap'
 import logo from '../images/new.png'
 import axios from 'axios'
+import { useScreenshot, createFileName } from "use-react-screenshot";
+
 
 import background from '../images/sunset.jfif'
 import grain from '../images/grain.jpg'
@@ -19,7 +21,24 @@ ReactGA.initialize(trackingId);
 
 const Ayah = () => {
 
-  // const classes = useStyles();
+
+  const ref = createRef(null);
+  const [image, takeScreenShot] = useScreenshot({
+    type: "image/jpeg",
+    quality: 10.0
+  });
+
+  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+
+  const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
+
+
+
 
   const [ayah, setAyah] = useState([''])
 
@@ -167,7 +186,7 @@ const Ayah = () => {
   return (
 
       
-    <div  class="flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')`, backgroundSize: 'cover' }}>
+    <div  ref={ref} class="flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')`, backgroundSize: 'cover' }}>
       
    
        
@@ -235,6 +254,15 @@ const Ayah = () => {
             <button type="button"  class='pr-4' onClick={refreshPage}> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="white">
   <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
 </svg> </button>
+
+<button 
+class='pr-4'
+          
+          
+          onClick={downloadScreenshot}><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+</svg>
+</button>
 
 
 <button class='pr-4' onClick={() => setSmShow(true)}>
@@ -353,8 +381,7 @@ style={{background: '#F0F0F0	'}}>
 
     
           
-        
-
+          
 
 <p class="text-black text-opacity-25 ... font-mono text-sm text-centre ">Aayah.app</p>
 
@@ -363,6 +390,8 @@ style={{background: '#F0F0F0	'}}>
        
         
         </div>
+   
+
       </div>
     </div>
     </div>
