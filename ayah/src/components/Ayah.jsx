@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap'
 import logo from '../images/new.png'
 import axios from 'axios'
 
-import background from '../images/sunset.JPG'
+import background from '../images/sunset.jfif'
 import grain from '../images/grain.jpg'
 
 
