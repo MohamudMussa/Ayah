@@ -370,12 +370,11 @@ class='pr-4'
 style={{background: '#F0F0F0	'}}> 
         
                 <ReactAudioPlayer
-                
+                playIcon
+                style={{background: 'black'}}
+  controls={true}               
   src={audio}
-
-  controls
-
-/>
+  />
 </div>
           </Modal>
 
