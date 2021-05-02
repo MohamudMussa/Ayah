@@ -193,6 +193,7 @@ const Ayah = () => {
    
        
       <motion.div
+      initial={{ scale: 0 }}
     animate={{       scale: [0.5, 1.2, 1.2, 1, 1],
     }}
     transition={{ duration: 2 }} class="max-w-5xl  p-4 m-6  rounded-3xl shadow-xl  	"  style={{ backgroundImage: `url('${background}')` }}>
@@ -217,27 +218,7 @@ const Ayah = () => {
                 <h2 class="text-base font-medium text-xl text-white	 text-center	"
                 style={{alignSelf: "center", writingDirection: "rlt"}}>   {ayah.text}      </h2>
 
-{/* <button> 
-
-<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
-</svg>
-
-                </button>
-
-                <button> 
-
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-</svg>
-
-                </button> */}
-{/* ۞ */}
-
-              
-                {/* ?ayah.text :  <Backdrop className={classes.backdrop} open>
-        <CircularProgress color="inherit" />
-      </Backdrop> */}
+      
                 <div class="pt-6"></div>
                 
 
@@ -258,7 +239,7 @@ const Ayah = () => {
             
             <motion.button
     whileHover={{ scale: 1.1 }}
-    whileTap={{ scale: 0.9 }} type="button"  class='pr-4' onClick={refreshPage}> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="white">
+    whileTap={{ scale: 0.9 }} type="button"  class='pr-4' onClick={refreshPage}> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="white">
   <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
 </svg> </motion.button>
 
@@ -268,7 +249,7 @@ const Ayah = () => {
 class='pr-4'
           
           
-          onClick={downloadScreenshot}><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white">
+          onClick={downloadScreenshot}> <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white">
   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
 </svg>
 </motion.button>
@@ -277,7 +258,7 @@ class='pr-4'
 <motion.button
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }} class='pr-4' onClick={() => setSmShow(true)}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"fill="none" viewBox="0 0 24 24" stroke="white">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white">
   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg>
               </motion.button>
