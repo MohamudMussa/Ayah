@@ -7,8 +7,8 @@ import { motion } from "framer-motion"
 
 
 
+
 import background from '../images/palmm.jpg'
-import newImage from '../images/image2.jpg'
 
 
 
@@ -16,13 +16,39 @@ import ReactPlayer from 'react-player'
 
 import ReactGA from 'react-ga';
 
-const trackingId = "UA-47496938-1"; // Replace with your Google Analytics tracking ID
-ReactGA.initialize(trackingId);
 
+
+import a from '../images/image2.jpg'
+
+import b from '../images/image3.jpg'
+
+
+import c from '../images/image4.jpg'
+
+
+
+
+const IMAGES = [
+  a,b,c
+];
 
 
 
 const Ayah = () => {
+
+  const getImage = () => {
+    const number = Math.floor(Math.random() * 3) + 0;
+    console.log(number);
+    return IMAGES[number];
+  };
+
+  const [activeImage, setActiveImage] = useState(IMAGES[0]);
+
+  const handleClick = () => {
+    const image = getImage();
+    setActiveImage(image);
+    console.log(image);
+  };
 
 
   const ref = createRef(null);
@@ -40,11 +66,7 @@ const Ayah = () => {
 
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
 
-  // const imageOne = {
-  //   backgroundImage: `url('${newImage}')`, 
-  //   backgroundSize: 'cover'
-    
-  // }
+
 
 
 
@@ -68,9 +90,6 @@ const [play, setPlay] = useState(false)
 
   const [suraah, setSuraah] = useState('')
   const [aayah, setAayah] = useState('')
-
-  //Audio Modal
-  const [smAudio, setSmAudio] = useState(false);
 
 
 
@@ -197,15 +216,20 @@ const [play, setPlay] = useState(false)
   return (
 
       
-    <div  ref={ref} class="flex items-center justify-center min-h-screen "  style={{ backgroundImage: `url('${background}')`, backgroundSize: 'cover' }}>
-      
-   
+    <div  ref={ref} 
+    class="flex items-center justify-center min-h-screen "  
+    style={{
+      backgroundImage: `url('${activeImage}')`,
+      backgroundSize: "cover",
+
+    }}>
+
        
       <motion.div
       initial={{ scale: 0 }}
     animate={{       scale: [0.5, 1.2, 1.2, 1, 1],
     }}
-    transition={{ duration: 2 }} class="max-w-5xl  p-4 m-6  rounded-3xl shadow-xl  	"  style={{ backgroundImage: `url('${background}')` }}>
+    transition={{ duration: 2 }} class="max-w-5xl  p-4 m-6  rounded-3xl shadow-xl  	"  style={{ backgroundImage: `url('${activeImage}')` }}>
 
 
         <div class="bg-fixed">  
@@ -416,13 +440,13 @@ class='pr-4'
 
           {/* </Modal> */}
 
-{/*     
-          <button onClick={imageOne}>
+    
+          <button onClick={handleClick}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-</svg>
-          </button>
-     */}
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+      </button>
+    
 
 <p class="text-black text-opacity-25 ... font-mono text-sm text-centre ">Aayah.app</p>
 
