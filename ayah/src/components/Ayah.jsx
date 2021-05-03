@@ -8,15 +8,15 @@ import { motion } from "framer-motion"
 
 
 
-import background from '../images/palmm.jpg'
+// import background from '../images/palmm.jpg'
 
 
 
 import ReactPlayer from 'react-player'
 
-import ReactGA from 'react-ga';
 
 
+import q from '../images/image2.jpg'
 
 import a from '../images/image2.jpg'
 
@@ -29,10 +29,19 @@ import d from '../images/image5.jpg'
 
 import e from '../images/pinkUs.jfif'
 
+import f from '../images/image9.jfif'
+
+import g from '../images/sunset.jfif'
+
+import h from '../images/neww.jpg'
+
+
+
+
 
 
 const IMAGES = [
-  a,b,c,d,e
+  q,a,b,c,d,e,f,g,h
 ];
 
 
@@ -40,7 +49,7 @@ const IMAGES = [
 const Ayah = () => {
 
   const getImage = () => {
-    const number = Math.floor(Math.random() * 5) + 0;
+    const number = Math.floor(Math.random() * 8) + 1;
     console.log(number);
     return IMAGES[number];
   };
@@ -50,7 +59,6 @@ const Ayah = () => {
   const handleClick = () => {
     const image = getImage();
     setActiveImage(image);
-    console.log(image);
   };
 
 
