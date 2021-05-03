@@ -407,6 +407,7 @@ class='pr-4'
   playing={play}
   height={0}
   width={0}
+  onEnded={() => setPlay(false)}
   // onPause={() => setPlay(false)}
   // onPlay={() => setPlay(true)}
   // onEnded={() => setPlay(false)}
