@@ -7,11 +7,12 @@ import { motion } from "framer-motion"
 
 
 
-import background from '../images/image4.jpg'
-import grain from '../images/grain.jpg'
+import background from '../images/palm.JPG'
+import newImage from '../images/image2.jpg'
 
 
-import ReactAudioPlayer from 'react-audio-player';
+
+import ReactPlayer from 'react-player'
 
 import ReactGA from 'react-ga';
 
@@ -39,6 +40,12 @@ const Ayah = () => {
 
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
 
+  // const imageOne = {
+  //   backgroundImage: `url('${newImage}')`, 
+  //   backgroundSize: 'cover'
+    
+  // }
+
 
 
 
@@ -50,6 +57,8 @@ const Ayah = () => {
   
   const [audio, setAudio] = useState('')
 
+//audio fucntionality 
+const [play, setPlay] = useState(false)
 
 
   //Search Modal 
@@ -342,16 +351,16 @@ class='pr-4'
           </Modal>
 
 
-          <motion.button
+          {/* <motion.button
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}  onClick={() => setSmAudio(true)}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white">
   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg>
-              </motion.button>
+              </motion.button> */}
               
-          <Modal
+          {/* <Modal
             className="opacity-80 rounded-3xl shadow-xl "
 
             size="sm"
@@ -359,24 +368,63 @@ class='pr-4'
             show={smAudio}
             onHide={() => setSmAudio(false)}
       centered
-          >
+          > */}
 
             
-<div class="flex items-center justify-center  bg-red-lightest"
-style={{background: '#F0F0F0	'}}> 
-        
-                <ReactAudioPlayer
-                playIcon
-                style={{background: 'black'}}
-  controls={true}               
-  src={audio}
-  />
-</div>
-          </Modal>
 
-    
-          
-          
+
+  {play === false && (
+    <motion.button
+    onClick={() => setPlay(true)}
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }} >
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+              </motion.button> 
+
+  ) }
+  
+  {play === true && (
+        <motion.button
+        onClick={() => setPlay(false)}
+
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }} >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+                  </motion.button> 
+
+
+  )}
+
+
+
+                <ReactPlayer
+  url={audio}
+  playing={play}
+  height={0}
+  width={0}
+  // onPause={() => setPlay(false)}
+  // onPlay={() => setPlay(true)}
+  // onEnded={() => setPlay(false)}
+  
+  />
+
+
+        
+
+          {/* </Modal> */}
+
+{/*     
+          <button onClick={imageOne}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+</svg>
+          </button>
+     */}
 
 <p class="text-black text-opacity-25 ... font-mono text-sm text-centre ">Aayah.app</p>
 
