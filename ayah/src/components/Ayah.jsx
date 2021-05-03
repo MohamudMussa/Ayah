@@ -25,11 +25,14 @@ import b from '../images/image3.jpg'
 
 import c from '../images/image4.jpg'
 
+import d from '../images/image5.jpg'
+
+import e from '../images/pinkUs.jfif'
 
 
 
 const IMAGES = [
-  a,b,c
+  a,b,c,d,e
 ];
 
 
@@ -37,7 +40,7 @@ const IMAGES = [
 const Ayah = () => {
 
   const getImage = () => {
-    const number = Math.floor(Math.random() * 3) + 0;
+    const number = Math.floor(Math.random() * 5) + 0;
     console.log(number);
     return IMAGES[number];
   };
@@ -223,6 +226,7 @@ const [play, setPlay] = useState(false)
       backgroundSize: "cover",
 
     }}>
+      
 
        
       <motion.div
@@ -375,30 +379,14 @@ class='pr-4'
           </Modal>
 
 
-          {/* <motion.button
-    whileHover={{ scale: 1.1 }}
-    whileTap={{ scale: 0.9 }}  onClick={() => setSmAudio(true)}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white">
-  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-</svg>
-              </motion.button> */}
-              
-          {/* <Modal
-            className="opacity-80 rounded-3xl shadow-xl "
-
-            size="sm"
-            keyboard="true"
-            show={smAudio}
-            onHide={() => setSmAudio(false)}
-      centered
-          > */}
 
             
 
 
   {play === false && (
     <motion.button
+    class='pr-4'
+
     onClick={() => setPlay(true)}
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }} >
@@ -412,8 +400,8 @@ class='pr-4'
   
   {play === true && (
         <motion.button
+        class='pr-4'
         onClick={() => setPlay(false)}
-
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }} >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -423,6 +411,19 @@ class='pr-4'
 
 
   )}
+
+  
+ <motion.button
+
+onClick={handleClick}
+   whileHover={{ scale: 1.1 }}
+       whileTap={{ scale: 0.9 }} >
+         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+ <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+</svg>
+     </motion.button>
+
+    
 
 
 
@@ -436,17 +437,9 @@ class='pr-4'
   />
 
 
-        
-
-          {/* </Modal> */}
-
     
-          <button onClick={handleClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
-      </button>
     
+      
 
 <p class="text-black text-opacity-25 ... font-mono text-sm text-centre ">Aayah.app</p>
 
