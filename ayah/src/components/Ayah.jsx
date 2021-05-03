@@ -7,7 +7,7 @@ import { motion } from "framer-motion"
 
 
 
-import background from '../images/palm.JPG'
+import background from '../images/palmm.jpg'
 import newImage from '../images/image2.jpg'
 
 
@@ -408,9 +408,6 @@ class='pr-4'
   height={0}
   width={0}
   onEnded={() => setPlay(false)}
-  // onPause={() => setPlay(false)}
-  // onPlay={() => setPlay(true)}
-  // onEnded={() => setPlay(false)}
   
   />
 
