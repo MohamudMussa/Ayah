@@ -44,7 +44,6 @@ import k from '../images/image77.jpg'
 import l from '../images/image88.jpg'
 
 
-import v from '../images/image00.jpg'
 
 
 
@@ -53,7 +52,7 @@ import v from '../images/image00.jpg'
 
 
 const IMAGES = [
-  q,a,b,c,d,e,f,g,h,i,j,k,l,v
+  q,a,b,c,d,e,f,g,h,i,j,k,l,
 ];
 
 
