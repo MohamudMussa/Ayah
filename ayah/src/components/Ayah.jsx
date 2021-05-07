@@ -33,7 +33,16 @@ import f from '../images/image9.jfif'
 
 import g from '../images/sunset.jfif'
 
-import h from '../images/neww.jpg'
+import h from '../images/image99.jpg'
+
+import i from '../images/image55.jpg'
+
+import j from '../images/image66.jpg'
+
+import k from '../images/image77.jpg'
+
+import l from '../images/image88.jpg'
+
 
 
 
@@ -41,7 +50,7 @@ import h from '../images/neww.jpg'
 
 
 const IMAGES = [
-  q,a,b,c,d,e,f,g,h
+  q,a,b,c,d,e,f,g,h,i,j,k,l
 ];
 
 
@@ -49,7 +58,7 @@ const IMAGES = [
 const Ayah = () => {
 
   const getImage = () => {
-    const number = Math.floor(Math.random() * 8) + 1;
+    const number = Math.floor(Math.random() * 12) + 1;
     console.log(number);
     return IMAGES[number];
   };
