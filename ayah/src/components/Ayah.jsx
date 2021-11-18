@@ -356,14 +356,14 @@ const Ayah = () => {
                     whileTap={{ scale: 0.9 }}
                     onClick={print}
                     type="submit"
+                    className="py-9	group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    {" "}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke="white"
+                      stroke="currentColor"
                     >
                       <path
                         strokeLinecap="round"
@@ -371,7 +371,7 @@ const Ayah = () => {
                         strokeWidth={2}
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                       />
-                    </svg>{" "}
+                    </svg>
                   </motion.button>
                 </Modal.Body>
               </Modal>
@@ -428,7 +428,6 @@ const Ayah = () => {
                 </motion.button>
               )}
               <motion.button
-                className="pup-btn"
                 onClick={handleClick}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
