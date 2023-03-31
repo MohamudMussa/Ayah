@@ -1,0 +1,20 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro&display=swap');
+
+@font-face {
+font-family: "ReadexPro";
+src: local("ReadexPro"),
+ url("ReadexPro-VariableFont_HEXPwght.ttf") format("truetype");
+font-weight: bold;
+}
+
+.main-text{
+font-family: 'ReadexPro', 'Readex+Pro', sans-serif;
+}
+
+
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
