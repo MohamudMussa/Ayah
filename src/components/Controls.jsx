@@ -13,7 +13,6 @@ const Controls = ({ props }) => {
         });
     };
 
-
     return (
         <div className='flex gap-1 items-center justify-center my-3'>
             <button className=" p-2 outline-none md:hover:bg-gray-300 md:hover:bg-opacity-20 rounded md:hover:-translate-y-1 md:hover:scale-110 transition-all" type="button" onClick={refresh} >
