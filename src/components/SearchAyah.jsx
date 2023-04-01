@@ -15,13 +15,13 @@ const SearchAyah = ({ setShowModal, showModal }) => {
 
 
 
-    const { data: audio, isLoading, isSuccess } = useAudioAyahQuery({
+    const {  isLoading, isSuccess } = useAudioAyahQuery({
         surah: selectedSurah,
         ayah: selectedAyah
     },
         { skip: skip }
     )
-    const { data: english } = useEnglishAyahQuery({
+    const { } = useEnglishAyahQuery({
         surah: selectedSurah,
         ayah: selectedAyah
     },
