@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 
 import m from "../assets/images/bb.jpg";
 import o from "../assets/images/dark.jpg";
-import v from "../assets/images/image00.jpg";
+import n from "../assets/images/image00.jpg";
 import a from "../assets/images/image2.jpg";
 import b from "../assets/images/image3.jpg";
 import c from "../assets/images/image4.jpg";
@@ -20,11 +20,11 @@ import g from "../assets/images/sunset.jpg";
 import {
   useRandomAudioAyahQuery,
   useRandomEnglishAyahQuery
-} from "../redux/features/randomAyah/randomAyahSlice";
+} from "../features/randomAyah/randomAyahSlice";
 import Controls from "./Controls";
 import SearchAyah from "./SearchAyah";
 
-const IMAGES = [a, b, c, d, e, f, g, h, i, j, k, l, v, m, o];
+const IMAGES = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o];
 
 
 const Ayah = () => {
@@ -36,15 +36,10 @@ const Ayah = () => {
 
   const { english, audio } = useSelector(state => state.surah)
 
-  const getImage = () => {
-    const number = Math.floor(Math.random() * 13) + 1;
-    return IMAGES[number];
-  };
-
   const [activeImage, setActiveImage] = useState(IMAGES[0]);
 
   const randomizeBg = () => {
-    const image = getImage();
+    const image = IMAGES[Math.floor(Math.random() * IMAGES.length)];
     setActiveImage(image);
   };
 
@@ -56,9 +51,12 @@ const Ayah = () => {
 
   const refresh = () => {
     setAyahNumber(Math.floor(Math.random() * 6236) + 1);
-    randomizeBg();
+    // randomizeBg();
   }
 
+  useEffect(() => {
+    randomizeBg();
+  }, [])
 
   let content = null;
   if (isLoading) content = <div className="flex justify-center items-center h-full">

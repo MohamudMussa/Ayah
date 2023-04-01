@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/images/logo.png';
-import { useGetSurahQuery } from '../redux/features/api/apiSlice';
-import { useAudioAyahQuery, useEnglishAyahQuery } from '../redux/features/ayah/ayahSlice';
+import { useGetSurahQuery } from '../features/api/apiSlice';
+
 import { Close, Search2 } from './Icons';
+import { useRandomAudioAyahQuery, useRandomEnglishAyahQuery } from '../features/randomAyah/randomAyahSlice';
 
 const SearchAyah = ({ setShowModal, showModal }) => {
     const { data: surahs } = useGetSurahQuery();
@@ -13,13 +14,13 @@ const SearchAyah = ({ setShowModal, showModal }) => {
 
     
     
-    const { data: audio, isLoading, isSuccess } = useAudioAyahQuery({
+    const { data: audio, isLoading, isSuccess } = useRandomAudioAyahQuery({
         surah: selectedSurah,
         ayah: selectedAyah
     },
         { skip: skip }
     )
-    const { data: english } = useEnglishAyahQuery({
+    const { data: english } = useRandomEnglishAyahQuery({
         surah: selectedSurah,
         ayah: selectedAyah
     },
