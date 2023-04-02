@@ -66,14 +66,14 @@ const App = () => {
     <div className="text-2xl text-red-500">Something went wrong</div>
   </div>
   if (!isError && !isLoading && randomEnglish) content = (<div className="flex flex-col space-y-4 h-full p-4 md:p-6 lg:p-8 justify-between text-center ">
-    <div className=" text-1xl font- text-white text-center 	">
+    <div className=" text-1xl text-white text-center 	">
       <p > {audio?.surah?.name}</p>
       <div className=" font-ubuntu text-sm font-small text-white text-center">
         {audio?.surah?.englishName} - {audio?.surah?.englishNameTranslation}
       </div>
 
       <div className=" font-ubuntu flex  flex-col gap-3   text-white	 text-center 	mt-4">
-        <h2 className="main-text text-2xl mb-4 mt-2" style={{ writingDirection: "rlt" }} >{audio?.text}</h2>
+        <h2 className="main-text  text-3xl md:text-5xl font-bold mb-4 mt-2" style={{ writingDirection: "rlt" }} >{audio?.text}</h2>
         <p className=" text-lg">-{english?.text ? english.text : "Click the refresh icon below to reveal an Ayah"}</p>
         <hr className="w-2/12 md:w-1/12 mx-auto mt-10" />
         <p>{english?.surah?.revelationType} Ayah</p>
