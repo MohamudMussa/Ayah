@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   RefreshCw,
@@ -7,8 +8,11 @@ import {
   Image as ImageIcon,
   Share2,
   Link2,
+  Download,
+  Loader2,
 } from 'lucide-react'
 import BookmarkButton from './BookmarkButton'
+import { renderAyahImage, shareAyahImage } from '@/lib/share-image'
 
 interface ControlsProps {
   onRefresh: () => void
@@ -19,16 +23,20 @@ interface ControlsProps {
   surahName: string
   surahNameArabic: string
   translationText: string
+  arabicText: string
+  backgroundUrl: string
 }
 
 function ControlButton({
   onClick,
   label,
   children,
+  disabled,
 }: {
   onClick: () => void
   label: string
   children: React.ReactNode
+  disabled?: boolean
 }) {
   return (
     <motion.button
@@ -38,6 +46,7 @@ function ControlButton({
       className="control-btn"
       aria-label={label}
       title={label}
+      disabled={disabled}
     >
       {children}
     </motion.button>
@@ -53,11 +62,34 @@ export default function Controls({
   surahName,
   surahNameArabic,
   translationText,
+  arabicText,
+  backgroundUrl,
 }: ControlsProps) {
+  const [sharing, setSharing] = useState(false)
+
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(`${window.location.origin}/ayah/${reference}`)
     } catch {}
+  }
+
+  const handleShareImage = async () => {
+    setSharing(true)
+    try {
+      const blob = await renderAyahImage({
+        arabicText,
+        translationText,
+        surahName,
+        reference,
+        backgroundUrl,
+      })
+      await shareAyahImage(blob, reference)
+    } catch {
+      // Fallback to text share
+      onShare()
+    } finally {
+      setSharing(false)
+    }
   }
 
   return (
@@ -81,8 +113,12 @@ export default function Controls({
         <Link2 className="w-4 h-4" />
       </ControlButton>
 
-      <ControlButton onClick={onShare} label="Share">
-        <Share2 className="w-4 h-4" />
+      <ControlButton onClick={handleShareImage} label="Share Image" disabled={sharing}>
+        {sharing ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Share2 className="w-4 h-4" />
+        )}
       </ControlButton>
 
       <ControlButton onClick={onChangeBackground} label="Change Background">

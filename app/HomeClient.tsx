@@ -45,6 +45,27 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
   const [bgImage, setBgImage] = useState(initialBgImage)
   const [ayahNumber, setAyahNumber] = useState(initialData?.ayahNumber ?? 1)
 
+  // On mount: if user's saved reciter/translation differs from defaults, re-fetch
+  useEffect(() => {
+    if (!initialData) return
+    const num = initialData.ayahNumber
+    const needsReciter = reciter !== 'ar.alafasy'
+    const needsTranslation = translation !== 'en.sahih'
+
+    if (needsReciter) {
+      fetch(`https://api.alquran.cloud/v1/ayah/${num}/${reciter}`)
+        .then((res) => res.json())
+        .then((json) => setAudioUrl(json.data.audio))
+        .catch(() => {})
+    }
+    if (needsTranslation) {
+      fetch(`https://api.alquran.cloud/v1/ayah/${num}/${translation}`)
+        .then((res) => res.json())
+        .then((json) => setEnglish(json.data))
+        .catch(() => {})
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const fetchAyah = useCallback(
     async (ref: string | number, reciterId?: string, translationId?: string) => {
       setLoading(true)
@@ -76,6 +97,7 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
   const handleRefresh = useCallback(() => {
     const num = getRandomAyahNumber()
     setAyahNumber(num)
+    setBgImage(getRandomBackground())
     fetchAyah(num)
   }, [fetchAyah])
 
@@ -217,6 +239,8 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
               surahName={arabic.surah.englishName}
               surahNameArabic={arabic.surah.name}
               translationText={english.text}
+              arabicText={arabic.text}
+              backgroundUrl={bgImage}
             />
           </div>
         )}

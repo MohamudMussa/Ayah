@@ -3,6 +3,8 @@ import { getDailyAyahNumber } from '@/lib/daily-ayah'
 import { getRandomBackground } from '@/lib/utils'
 import HomeClient from './HomeClient'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   const dailyNumber = getDailyAyahNumber()
   const bgImage = getRandomBackground()

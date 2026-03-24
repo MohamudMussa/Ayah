@@ -152,6 +152,8 @@ export default function AyahPageClient({ initialArabic, initialEnglish, referenc
           surahName={arabic.surah.englishName}
           surahNameArabic={arabic.surah.name}
           translationText={english.text}
+          arabicText={arabic.text}
+          backgroundUrl={bgImage}
         />
 
       </div>
