@@ -55,14 +55,14 @@ export default function TafsirSection({ reference }: TafsirSectionProps) {
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="mt-4 p-4 rounded-2xl bg-white/5 border border-white/5">
+            <div className="mt-3 p-3 md:p-4 rounded-2xl bg-white/5 border border-white/5 max-h-40 overflow-y-auto">
               {loading ? (
-                <div className="flex justify-center py-4">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="flex justify-center py-3">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 </div>
               ) : (
-                <div className="text-sm text-white/60 leading-relaxed">
-                  <p className="text-xs text-white/30 mb-2 font-medium uppercase tracking-wider">
+                <div className="text-xs md:text-sm text-white/60 leading-relaxed">
+                  <p className="text-[10px] md:text-xs text-white/30 mb-1.5 font-medium uppercase tracking-wider">
                     Tafsir Maududi
                   </p>
                   {tafsir}

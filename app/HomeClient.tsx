@@ -184,7 +184,7 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
 
   return (
     <div
-      className="relative min-h-screen flex flex-col items-center justify-center p-4 transition-all duration-700"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-center px-3 py-4 md:p-4 transition-all duration-700"
       style={{
         backgroundImage: bgImage ? `url('${bgImage}')` : undefined,
         backgroundSize: 'cover',
@@ -204,7 +204,7 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
       </div>
 
       {/* Main card */}
-      <div className="glass-card w-full max-w-lg p-5 md:p-8 space-y-5">
+      <div className="glass-card w-full max-w-lg p-4 md:p-8 space-y-3 md:space-y-5">
         {/* Ayah content */}
         <AnimatePresence mode="wait">
           {loading ? (
@@ -228,7 +228,7 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
 
         {/* Audio + Controls inline */}
         {!loading && arabic && english && (
-          <div className="space-y-3">
+          <div className="space-y-2 md:space-y-3">
             <AudioPlayer url={audioUrl} reciterName={reciterName} />
             <Controls
               onRefresh={handleRefresh}
@@ -246,8 +246,9 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
         )}
 
         {/* Selectors */}
-        <div className="flex items-center justify-center gap-2 flex-wrap">
+        <div className="flex items-center justify-center gap-1.5">
           <ReciterSelector value={reciter} onChange={handleReciterChange} />
+          <span className="text-white/15 text-[8px]">•</span>
           <TranslationSelector value={translation} onChange={handleTranslationChange} />
         </div>
 

@@ -21,7 +21,7 @@ export default function TranslationSelector({ value, onChange }: TranslationSele
     <select
       value={value}
       onChange={(e) => onChange(e.target.value as TranslationId)}
-      className="text-[10px] bg-transparent border border-white/[0.06] rounded-md px-1.5 py-1 text-white/35 hover:text-white/50 focus:outline-none appearance-none cursor-pointer"
+      className="text-[10px] bg-transparent border border-white/[0.06] rounded-full px-2.5 py-1 text-white/35 hover:text-white/50 focus:outline-none appearance-none cursor-pointer text-center"
       aria-label="Select translation"
     >
       {Object.entries(grouped).map(([language, translations]) => (

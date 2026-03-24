@@ -19,22 +19,22 @@ export default function AyahDisplay({ arabic, translation, animationKey }: AyahD
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="flex flex-col items-center gap-4 text-center text-white"
+      className="flex flex-col items-center gap-2 md:gap-4 text-center text-white"
     >
       {/* Surah info */}
       <div className="space-y-0.5">
-        <p className="text-[11px] font-medium tracking-wider text-white/40 uppercase">
+        <p className="text-[10px] md:text-[11px] font-medium tracking-wider text-white/40 uppercase">
           {surah.englishName} — {surah.englishNameTranslation}
         </p>
       </div>
 
       {/* Arabic text — quran.com style */}
       <h2
-        className="font-arabic text-xl md:text-2xl text-white/95"
+        className="font-arabic text-lg md:text-2xl text-white/95"
         dir="rtl"
         lang="ar"
         style={{
-          lineHeight: 2.2,
+          lineHeight: 2,
           wordSpacing: '0.05em',
           fontFeatureSettings: '"liga" 1, "calt" 1',
         }}
@@ -43,7 +43,7 @@ export default function AyahDisplay({ arabic, translation, animationKey }: AyahD
       </h2>
 
       {/* Translation */}
-      <p className="text-[13px] md:text-sm leading-relaxed text-white/55 max-w-md">
+      <p className="text-[12px] md:text-sm leading-relaxed text-white/55 max-w-md">
         {translation.text}
       </p>
 

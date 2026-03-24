@@ -95,11 +95,11 @@ export default function Controls({
   return (
     <div className="flex items-center justify-center gap-1 md:gap-2">
       <ControlButton onClick={onRefresh} label="Random Ayah (R)">
-        <RefreshCw className="w-4 h-4" />
+        <RefreshCw className="w-3.5 h-3.5 md:w-4 md:h-4" />
       </ControlButton>
 
       <ControlButton onClick={onSearch} label="Search (S)">
-        <Search className="w-4 h-4" />
+        <Search className="w-3.5 h-3.5 md:w-4 md:h-4" />
       </ControlButton>
 
       <BookmarkButton
@@ -110,19 +110,19 @@ export default function Controls({
       />
 
       <ControlButton onClick={copyLink} label="Copy Link">
-        <Link2 className="w-4 h-4" />
+        <Link2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
       </ControlButton>
 
       <ControlButton onClick={handleShareImage} label="Share Image" disabled={sharing}>
         {sharing ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
+          <Loader2 className="w-3.5 h-3.5 md:w-4 md:h-4 animate-spin" />
         ) : (
-          <Share2 className="w-4 h-4" />
+          <Share2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
         )}
       </ControlButton>
 
       <ControlButton onClick={onChangeBackground} label="Change Background">
-        <ImageIcon className="w-4 h-4" />
+        <ImageIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
       </ControlButton>
     </div>
   )
