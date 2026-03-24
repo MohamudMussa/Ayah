@@ -1,5 +1,6 @@
 'use client'
 
+import { ChevronDown } from 'lucide-react'
 import { RECITERS, type ReciterId } from '@/lib/constants'
 
 interface ReciterSelectorProps {
@@ -8,18 +9,23 @@ interface ReciterSelectorProps {
 }
 
 export default function ReciterSelector({ value, onChange }: ReciterSelectorProps) {
+  const name = RECITERS.find((r) => r.id === value)?.name || 'Reciter'
+
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value as ReciterId)}
-      className="text-[10px] bg-transparent border border-white/[0.06] rounded-full px-2.5 py-1 text-white/35 hover:text-white/50 focus:outline-none appearance-none cursor-pointer text-center"
-      aria-label="Select reciter"
-    >
-      {RECITERS.map((reciter) => (
-        <option key={reciter.id} value={reciter.id} className="bg-gray-800 text-white">
-          {reciter.name}
-        </option>
-      ))}
-    </select>
+    <div className="relative inline-flex items-center">
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value as ReciterId)}
+        className="text-[10px] bg-white/[0.04] border border-white/[0.08] rounded-full pl-2.5 pr-5 py-1 text-white/40 hover:text-white/60 hover:bg-white/[0.08] focus:outline-none appearance-none cursor-pointer transition-colors"
+        aria-label="Select reciter"
+      >
+        {RECITERS.map((reciter) => (
+          <option key={reciter.id} value={reciter.id} className="bg-gray-800 text-white">
+            {reciter.name}
+          </option>
+        ))}
+      </select>
+      <ChevronDown className="w-2.5 h-2.5 text-white/30 absolute right-1.5 pointer-events-none" />
+    </div>
   )
 }

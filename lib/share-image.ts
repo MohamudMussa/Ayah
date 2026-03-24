@@ -1,6 +1,6 @@
 /**
  * Renders the current ayah as a 1080x1920 image (Instagram Story size)
- * with the background image, Arabic text, translation, and reference.
+ * with a Fuji disposable camera aesthetic — warm tones, film grain, vignette.
  */
 export async function renderAyahImage({
   arabicText,
@@ -38,88 +38,128 @@ export async function renderAyahImage({
     ctx.fillRect(0, 0, W, H)
   }
 
-  // Semi-transparent overlay for readability
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
+  // Warm color overlay (Fuji disposable look)
+  ctx.fillStyle = 'rgba(255, 180, 100, 0.08)'
   ctx.fillRect(0, 0, W, H)
 
-  // Glass card area
-  const cardX = 60
-  const cardY = 400
-  const cardW = W - 120
-  const cardH = 1100
-  const radius = 40
-
-  ctx.save()
-  ctx.beginPath()
-  ctx.moveTo(cardX + radius, cardY)
-  ctx.lineTo(cardX + cardW - radius, cardY)
-  ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + radius)
-  ctx.lineTo(cardX + cardW, cardY + cardH - radius)
-  ctx.quadraticCurveTo(cardX + cardW, cardY + cardH, cardX + cardW - radius, cardY + cardH)
-  ctx.lineTo(cardX + radius, cardY + cardH)
-  ctx.quadraticCurveTo(cardX, cardY + cardH, cardX, cardY + cardH - radius)
-  ctx.lineTo(cardX, cardY + radius)
-  ctx.quadraticCurveTo(cardX, cardY, cardX + radius, cardY)
-  ctx.closePath()
+  // Darken overlay for readability
   ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
-  ctx.fill()
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)'
-  ctx.lineWidth = 2
-  ctx.stroke()
-  ctx.restore()
+  ctx.fillRect(0, 0, W, H)
 
+  // --- Measure content to size the card dynamically ---
+  const cardX = 60
+  const cardW = W - 120
+  const contentW = cardW - 100 // padding inside card
   const centerX = W / 2
-  let y = cardY + 80
 
-  // Surah name
+  // Measure surah name
+  ctx.font = '500 26px Inter, system-ui, sans-serif'
+  const surahLineH = 36
+
+  // Measure arabic text
+  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", Amiri, serif'
+  ctx.direction = 'rtl'
+  const arabicLineH = 48 * 2
+  const arabicLines = wrapText(ctx, arabicText, contentW, arabicLineH)
+  ctx.direction = 'ltr'
+
+  // Measure translation
+  ctx.font = '300 30px Inter, system-ui, sans-serif'
+  const transLineH = 44
+  const transLines = wrapText(ctx, `"${translationText}"`, contentW, transLineH)
+
+  // Calculate total content height
+  const paddingTop = 80
+  const paddingBottom = 70
+  const gapAfterSurah = 60
+  const gapAfterArabic = 50
+  const gapAfterTranslation = 45
+  const dividerGap = 40
+  const refHeight = 30
+
+  const totalContentH =
+    paddingTop +
+    surahLineH +
+    gapAfterSurah +
+    arabicLines.length * arabicLineH +
+    gapAfterArabic +
+    transLines.length * transLineH +
+    gapAfterTranslation +
+    1 + // divider
+    dividerGap +
+    refHeight +
+    paddingBottom
+
+  const cardH = Math.min(totalContentH, H - 300) // leave room for top/bottom
+  const cardY = (H - cardH) / 2 - 40 // slightly above center
+  const radius = 32
+
+  // Draw glass card
+  drawRoundedRect(ctx, cardX, cardY, cardW, cardH, radius)
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
+  ctx.fill()
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+  ctx.lineWidth = 1.5
+  ctx.stroke()
+
+  // --- Draw text content ---
+  let y = cardY + paddingTop
+
+  // Surah name — subtle, spaced out
   ctx.textAlign = 'center'
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
-  ctx.font = '500 28px Inter, system-ui, sans-serif'
-  ctx.fillText(surahName.toUpperCase(), centerX, y)
-  y += 70
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.45)'
+  ctx.font = '500 26px Inter, system-ui, sans-serif'
+  ctx.letterSpacing = '4px'
+  ctx.fillText(surahName.toUpperCase(), centerX, y + 20)
+  ctx.letterSpacing = '0px'
+  y += surahLineH + gapAfterSurah
 
-  // Arabic text
+  // Arabic text — clear, well-spaced
   ctx.fillStyle = 'rgba(255, 255, 255, 0.95)'
-  ctx.font = '52px "Amiri Quran", "Noto Naskh Arabic", Amiri, serif'
+  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", Amiri, serif'
   ctx.direction = 'rtl'
   ctx.textAlign = 'center'
-  const arabicLines = wrapText(ctx, arabicText, cardW - 80, 52 * 2.2)
   for (const line of arabicLines) {
     ctx.fillText(line, centerX, y)
-    y += 52 * 2.2
+    y += arabicLineH
   }
   ctx.direction = 'ltr'
-  y += 30
+  y += gapAfterArabic
 
-  // Translation
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.55)'
-  ctx.font = '300 32px Inter, system-ui, sans-serif'
+  // Translation — lighter, elegant
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+  ctx.font = '300 30px Inter, system-ui, sans-serif'
   ctx.textAlign = 'center'
-  const transLines = wrapText(ctx, `"${translationText}"`, cardW - 80, 48)
   for (const line of transLines) {
     ctx.fillText(line, centerX, y)
-    y += 48
+    y += transLineH
   }
-  y += 50
+  y += gapAfterTranslation
 
-  // Divider
+  // Divider line
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'
   ctx.lineWidth = 1
   ctx.beginPath()
-  ctx.moveTo(centerX - 40, y)
-  ctx.lineTo(centerX + 40, y)
+  ctx.moveTo(centerX - 30, y)
+  ctx.lineTo(centerX + 30, y)
   ctx.stroke()
-  y += 40
+  y += dividerGap
 
   // Reference
   ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
-  ctx.font = '26px "Ubuntu Mono", monospace'
+  ctx.font = '24px "Ubuntu Mono", monospace'
   ctx.textAlign = 'center'
   ctx.fillText(reference, centerX, y)
 
+  // --- Film grain effect ---
+  addFilmGrain(ctx, W, H)
+
+  // --- Vignette ---
+  addVignette(ctx, W, H)
+
   // Watermark at bottom
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.15)'
-  ctx.font = '24px Inter, system-ui, sans-serif'
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
+  ctx.font = '22px Inter, system-ui, sans-serif'
   ctx.textAlign = 'center'
   ctx.fillText('aayah.app', centerX, H - 60)
 
@@ -129,6 +169,50 @@ export async function renderAyahImage({
       'image/png'
     )
   })
+}
+
+function drawRoundedRect(
+  ctx: CanvasRenderingContext2D,
+  x: number, y: number, w: number, h: number, r: number
+) {
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.lineTo(x + w - r, y)
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r)
+  ctx.lineTo(x + w, y + h - r)
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h)
+  ctx.lineTo(x + r, y + h)
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r)
+  ctx.lineTo(x, y + r)
+  ctx.quadraticCurveTo(x, y, x + r, y)
+  ctx.closePath()
+}
+
+function addFilmGrain(ctx: CanvasRenderingContext2D, w: number, h: number) {
+  const imageData = ctx.getImageData(0, 0, w, h)
+  const data = imageData.data
+  const grainIntensity = 18 // subtle — like Fuji Superia 400
+
+  for (let i = 0; i < data.length; i += 4) {
+    const noise = (Math.random() - 0.5) * grainIntensity * 2
+    data[i] = Math.min(255, Math.max(0, data[i] + noise))     // R
+    data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise)) // G
+    data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise)) // B
+  }
+
+  ctx.putImageData(imageData, 0, 0)
+}
+
+function addVignette(ctx: CanvasRenderingContext2D, w: number, h: number) {
+  const cx = w / 2
+  const cy = h / 2
+  const outerRadius = Math.sqrt(cx * cx + cy * cy)
+  const gradient = ctx.createRadialGradient(cx, cy, outerRadius * 0.4, cx, cy, outerRadius)
+  gradient.addColorStop(0, 'rgba(0, 0, 0, 0)')
+  gradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.15)')
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 0.45)')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, w, h)
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -141,7 +225,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   })
 }
 
-function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, lineHeight: number): string[] {
+function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, _lineHeight: number): string[] {
   const words = text.split(' ')
   const lines: string[] = []
   let line = ''
