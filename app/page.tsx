@@ -1,0 +1,21 @@
+import { getAyah } from '@/lib/api'
+import { getDailyAyahNumber } from '@/lib/daily-ayah'
+import { getRandomBackground } from '@/lib/utils'
+import HomeClient from './HomeClient'
+
+export default async function HomePage() {
+  const dailyNumber = getDailyAyahNumber()
+  const bgImage = getRandomBackground()
+
+  let initialData = null
+  try {
+    const editions = await getAyah(dailyNumber, ['ar.alafasy', 'en.sahih'])
+    const arabic = editions.find((e) => e.edition?.language === 'ar')
+    const english = editions.find((e) => e.edition?.language === 'en')
+    if (arabic && english) {
+      initialData = { arabic, english, ayahNumber: dailyNumber }
+    }
+  } catch {}
+
+  return <HomeClient initialData={initialData} initialBgImage={bgImage} />
+}

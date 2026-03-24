@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Lateef:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Ubuntu+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: 255 255 255;
+    --bg-secondary: 243 244 246;
+    --text-primary: 17 24 39;
+    --text-secondary: 107 114 128;
+    --accent: 99 102 241;
+  }
+
+  .dark {
+    --bg-primary: 17 24 39;
+    --bg-secondary: 31 41 55;
+    --text-primary: 255 255 255;
+    --text-secondary: 156 163 175;
+    --accent: 129 140 248;
+  }
+}
+
+@layer components {
+  .glass-card {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    background-color: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .glass-card-light {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .control-btn {
+    @apply p-2 rounded-full transition-all duration-200;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .control-btn:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.05);
+  }
+  .control-btn:active {
+    transform: scale(0.95);
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-white/10 rounded-lg;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-arabic {
+  font-family: 'Amiri Quran', 'Noto Naskh Arabic', 'Amiri', 'Lateef', serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+/* Audio range input styling */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  margin-top: -3.5px;
+  transition: transform 0.1s;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type='range']::-moz-range-track {
+  height: 3px;
+  border-radius: 1.5px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+}
