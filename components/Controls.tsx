@@ -126,15 +126,19 @@ export default function Controls({
           ) : (
             <Share className="w-3.5 h-3.5" />
           )}
-          Share{shareCount ? ` · ${shareCount >= 1000 ? `${(shareCount/1000).toFixed(1)}K` : shareCount}` : ''}
+          Share
         </motion.button>
 
-        {/* More formats link */}
+        {/* Social proof + more formats */}
         <button
           onClick={() => setShowShareSheet(true)}
           className="text-[10px] text-white/25 hover:text-white/40 transition-colors"
         >
-          More formats
+          {shareCount ? (
+            <span>{shareCount >= 1000 ? `${(shareCount/1000).toFixed(1)}K` : shareCount} shared · More formats</span>
+          ) : (
+            'More formats'
+          )}
         </button>
 
         {/* Other controls */}
