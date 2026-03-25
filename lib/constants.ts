@@ -36,18 +36,18 @@ export const BACKGROUNDS = [
   'bb.jpg', 'dark.jpg', 'image00.jpg', 'image1.jpg', 'image2.jpg',
   'image3.jpg', 'image4.jpg', 'image5.jpg', 'image55.jpg', 'image6.jpg',
   'image66.jpg', 'image77.jpg', 'image8.jpg', 'image88.jpg', 'image9.jpg',
-  'image99.jpg', 'pinkUs.jpg', 'sunset.jpg', 'palmm.jpg', 'IMG_3151.jpg',
+  'image99.jpg', 'pinkUs.jpg', 'sunset.jpg', 'palmm.jpg',
   // Skies
   'sky_golden.jpg', 'sky_purple.jpg', 'sky_blue.jpg', 'sky_orange.jpg',
-  'sky_pink.jpg', 'sky_dramatic.jpg', 'sky_aurora.jpg', 'sky_twilight.jpg',
-  'sky_fire.jpg', 'sky_pastel.jpg', 'sky_milkyway.jpg', 'sky_clouds_pink.jpg',
+  'sky_pink.jpg', 'sky_dramatic.jpg', 'sky_aurora.jpg',
+  'sky_fire.jpg', 'sky_pastel.jpg',
   // Mountains
   'mountain_misty.jpg', 'mountain_snow.jpg', 'mountain_lake.jpg',
   'mountain_sunset.jpg', 'mountain_fog.jpg', 'mountain_alpine.jpg',
-  'mountain_ridge.jpg', 'mountain_dawn.jpg',
+  'mountain_ridge.jpg',
   // Water
   'ocean_calm.jpg', 'ocean_sunset.jpg', 'ocean_waves.jpg', 'ocean_aerial.jpg',
-  'lake_reflection.jpg', 'lake_mountain.jpg', 'waterfall.jpg',
+  'lake_reflection.jpg', 'waterfall.jpg',
   'turquoise_water.jpg', 'frozen_lake.jpg', 'sea_rocks.jpg', 'coral_sea.jpg',
   'river_canyon.jpg',
   // Forests & Nature
@@ -64,8 +64,8 @@ export const BACKGROUNDS = [
   // Landscapes
   'desert_dunes.jpg', 'tropical_beach.jpg', 'canyon.jpg', 'salt_flats.jpg',
   'fjord.jpg', 'dolomites.jpg', 'sahara.jpg', 'iceland_moss.jpg',
-  'rice_terraces.jpg', 'glacier.jpg', 'cliff_ocean.jpg', 'volcano.jpg',
-  'snow_trees.jpg', 'storm_sky.jpg', 'rolling_hills.jpg',
+  'glacier.jpg', 'cliff_ocean.jpg', 'volcano.jpg',
+  'snow_trees.jpg', 'storm_sky.jpg',
 ]
 
 export type ReciterId = typeof RECITERS[number]['id']
