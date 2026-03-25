@@ -19,11 +19,11 @@ export default function TranslationSelector({ value, onChange }: TranslationSele
   )
 
   return (
-    <div className="relative inline-flex items-center">
+    <div className="relative flex items-center min-w-0 flex-1 max-w-[45%]">
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as TranslationId)}
-        className="text-[10px] bg-white/[0.04] border border-white/[0.08] rounded-full pl-2.5 pr-5 py-1 text-white/40 hover:text-white/60 hover:bg-white/[0.08] focus:outline-none appearance-none cursor-pointer transition-colors"
+        className="text-[10px] w-full bg-white/[0.04] border border-white/[0.08] rounded-full pl-2.5 pr-5 py-1 text-white/40 hover:text-white/60 hover:bg-white/[0.08] focus:outline-none appearance-none cursor-pointer transition-colors truncate"
         aria-label="Select translation"
       >
         {Object.entries(grouped).map(([language, translations]) => (

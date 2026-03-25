@@ -246,9 +246,9 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
         )}
 
         {/* Selectors */}
-        <div className="flex items-center justify-center gap-1.5">
+        <div className="flex items-center justify-center gap-1.5 w-full">
           <ReciterSelector value={reciter} onChange={handleReciterChange} />
-          <span className="text-white/15 text-[8px]">•</span>
+          <span className="text-white/15 text-[8px] shrink-0">•</span>
           <TranslationSelector value={translation} onChange={handleTranslationChange} />
         </div>
 
