@@ -94,9 +94,9 @@ export async function renderAyahImage({
   const cardY = (H - cardH) / 2 - 40 // slightly above center
   const radius = 32
 
-  // Draw glass card
+  // Draw glass card — stronger for readability
   drawRoundedRect(ctx, cardX, cardY, cardW, cardH, radius)
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.55)'
   ctx.fill()
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
   ctx.lineWidth = 1.5
@@ -126,8 +126,8 @@ export async function renderAyahImage({
   ctx.direction = 'ltr'
   y += gapAfterArabic
 
-  // Translation — lighter, elegant
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+  // Translation — brighter for readability
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
   ctx.font = '300 30px Inter, system-ui, sans-serif'
   ctx.textAlign = 'center'
   for (const line of transLines) {
@@ -161,7 +161,7 @@ export async function renderAyahImage({
   ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
   ctx.font = '22px Inter, system-ui, sans-serif'
   ctx.textAlign = 'center'
-  ctx.fillText('aayah.app', centerX, H - 60)
+  ctx.fillText('www.aayah.one', centerX, H - 60)
 
   return new Promise((resolve, reject) => {
     canvas.toBlob(

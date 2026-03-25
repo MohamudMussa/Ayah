@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Providers from '@/components/Providers'
+import FilmGrain from '@/components/FilmGrain'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className="antialiased">
         <Providers>
           {children}
+          <FilmGrain />
         </Providers>
       </body>
     </html>

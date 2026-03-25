@@ -80,6 +80,32 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Fuji film camera effect — warm tint + vignette overlay */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Warm color tint */
+body::before {
+  background: rgba(255, 180, 100, 0.06);
+  mix-blend-mode: overlay;
+}
+
+/* Vignette */
+body::after {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.15) 80%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
