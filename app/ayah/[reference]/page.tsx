@@ -15,22 +15,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!english || !arabic) return {}
 
-    const title = `${arabic.surah.englishName} ${params.reference} — Aayah`
-    const description = english.text.substring(0, 200)
+    const ref = `${arabic.surah.number}:${arabic.numberInSurah}`
+    const title = `${arabic.surah.englishName} ${ref} (${arabic.surah.name}) — Aayah`
+    const description = english.text.length > 200
+      ? english.text.substring(0, 197) + '...'
+      : english.text
 
     return {
       title,
       description,
       openGraph: {
-        title: `Quran — ${arabic.surah.englishName} (${arabic.surah.name}) ${params.reference}`,
-        description,
+        title: `${arabic.surah.englishName} ${ref} — ${arabic.surah.name}`,
+        description: `"${description}" — Quran ${ref}`,
         type: 'article',
         siteName: 'Aayah',
+        url: `https://aayah.one/ayah/${params.reference}`,
       },
       twitter: {
         card: 'summary_large_image',
-        title,
-        description,
+        title: `${arabic.surah.englishName} ${ref} — Quran`,
+        description: `"${description}"`,
       },
     }
   } catch {

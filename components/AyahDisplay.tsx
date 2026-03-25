@@ -14,7 +14,7 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
+      staggerChildren: 0.1,
       delayChildren: 0.05,
     },
   },
@@ -34,8 +34,30 @@ const item = {
   },
 }
 
+// Word-by-word stagger for Arabic text
+const wordContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.035,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+const wordItem = {
+  hidden: { opacity: 0, y: 6, filter: 'blur(6px)' },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+}
+
 export default function AyahDisplay({ arabic, translation, animationKey }: AyahDisplayProps) {
   const surah = arabic.surah
+  const arabicWords = arabic.text.split(' ')
 
   return (
     <motion.div
@@ -53,9 +75,9 @@ export default function AyahDisplay({ arabic, translation, animationKey }: AyahD
         </p>
       </motion.div>
 
-      {/* Arabic text */}
+      {/* Arabic text — word by word animation */}
       <motion.h2
-        variants={item}
+        variants={wordContainer}
         className="font-arabic text-lg md:text-2xl text-white/95"
         dir="rtl"
         lang="ar"
@@ -65,7 +87,16 @@ export default function AyahDisplay({ arabic, translation, animationKey }: AyahD
           fontFeatureSettings: '"liga" 1, "calt" 1',
         }}
       >
-        {arabic.text}
+        {arabicWords.map((word, i) => (
+          <motion.span
+            key={`${animationKey}-${i}`}
+            variants={wordItem}
+            className="inline-block"
+            style={{ marginLeft: '0.25em' }}
+          >
+            {word}
+          </motion.span>
+        ))}
       </motion.h2>
 
       {/* Translation */}

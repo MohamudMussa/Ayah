@@ -6,10 +6,11 @@ import {
   RefreshCw,
   Search,
   Image as ImageIcon,
-  Upload,
+  Share,
   Loader2,
 } from 'lucide-react'
 import BookmarkButton from './BookmarkButton'
+import ShareSheet from './ShareSheet'
 import { renderAyahImage, shareAyahImage } from '@/lib/share-image'
 import { hapticMedium, hapticSuccess } from '@/lib/haptics'
 
@@ -66,11 +67,13 @@ export default function Controls({
   backgroundUrl,
   onToast,
 }: ControlsProps) {
-  const [sharing, setSharing] = useState(false)
+  const [showShareSheet, setShowShareSheet] = useState(false)
+  const [quickSharing, setQuickSharing] = useState(false)
 
-  const handleShareImage = async () => {
+  // Quick share: generates story format and shares immediately
+  const handleQuickShare = async () => {
     hapticMedium()
-    setSharing(true)
+    setQuickSharing(true)
     try {
       const blob = await renderAyahImage({
         arabicText,
@@ -78,59 +81,85 @@ export default function Controls({
         surahName,
         reference,
         backgroundUrl,
+        format: 'story',
       })
       await shareAyahImage(blob, reference)
       hapticSuccess()
       onToast?.('Image ready to share!', 'success')
     } catch {
-      // Fallback to text share
       onShare()
       onToast?.('Shared as text', 'success')
     } finally {
-      setSharing(false)
+      setQuickSharing(false)
     }
   }
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      {/* Share button — prominent */}
-      <motion.button
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        onClick={handleShareImage}
-        disabled={sharing}
-        className="flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/15 text-white/70 hover:bg-white/15 hover:text-white/90 transition-all text-xs font-medium"
-        aria-label="Share"
-      >
-        {sharing ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-        ) : (
-          <Upload className="w-3.5 h-3.5" />
-        )}
-        Share
-      </motion.button>
+    <>
+      <div className="flex flex-col items-center gap-2">
+        {/* Share button — prominent, recognizable */}
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={handleQuickShare}
+          onContextMenu={(e) => {
+            e.preventDefault()
+            setShowShareSheet(true)
+          }}
+          disabled={quickSharing}
+          className="flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/15 text-white/70 hover:bg-white/15 hover:text-white/90 transition-all text-xs font-medium"
+          aria-label="Share"
+        >
+          {quickSharing ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          ) : (
+            <Share className="w-3.5 h-3.5" />
+          )}
+          Share
+        </motion.button>
 
-      {/* Other controls */}
-      <div className="flex items-center justify-center gap-1 md:gap-2">
-        <ControlButton onClick={onRefresh} label="Random Ayah (R)">
-          <RefreshCw className="w-3.5 h-3.5 md:w-4 md:h-4" />
-        </ControlButton>
+        {/* More formats link */}
+        <button
+          onClick={() => setShowShareSheet(true)}
+          className="text-[10px] text-white/25 hover:text-white/40 transition-colors"
+        >
+          More formats
+        </button>
 
-        <ControlButton onClick={onSearch} label="Search (S)">
-          <Search className="w-3.5 h-3.5 md:w-4 md:h-4" />
-        </ControlButton>
+        {/* Other controls */}
+        <div className="flex items-center justify-center gap-1 md:gap-2">
+          <ControlButton onClick={onRefresh} label="Random Ayah (R)">
+            <RefreshCw className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </ControlButton>
 
-        <BookmarkButton
-          reference={reference}
-          surahName={surahName}
-          surahNameArabic={surahNameArabic}
-          translationText={translationText}
-        />
+          <ControlButton onClick={onSearch} label="Search (S)">
+            <Search className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </ControlButton>
 
-        <ControlButton onClick={onChangeBackground} label="Change Background">
-          <ImageIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-        </ControlButton>
+          <BookmarkButton
+            reference={reference}
+            surahName={surahName}
+            surahNameArabic={surahNameArabic}
+            translationText={translationText}
+          />
+
+          <ControlButton onClick={onChangeBackground} label="Change Background">
+            <ImageIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          </ControlButton>
+        </div>
       </div>
-    </div>
+
+      {/* Share format sheet */}
+      <ShareSheet
+        isOpen={showShareSheet}
+        onClose={() => setShowShareSheet(false)}
+        arabicText={arabicText}
+        translationText={translationText}
+        surahName={surahName}
+        reference={reference}
+        backgroundUrl={backgroundUrl}
+        onToast={onToast}
+      />
+    </>
   )
 }

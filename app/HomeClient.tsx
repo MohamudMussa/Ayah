@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Bookmark as BookmarkIcon } from 'lucide-react'
@@ -53,6 +53,23 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
   const { bookmarks } = useBookmarks()
   const hasBookmarks = bookmarks.length > 0
   const [toast, setToast] = useState({ message: '', type: 'success' as 'success' | 'error', visible: false })
+
+  // Background preloading pool — always have 2 ready
+  const preloadPool = useRef<string[]>([])
+  const preloadImages = useCallback(() => {
+    while (preloadPool.current.length < 3) {
+      const url = getRandomBackground()
+      preloadPool.current.push(url)
+      const img = new window.Image()
+      img.src = url // browser caches it
+    }
+  }, [])
+  useEffect(() => { preloadImages() }, [preloadImages])
+  const getPreloadedBg = useCallback(() => {
+    const bg = preloadPool.current.shift() || getRandomBackground()
+    preloadImages() // refill pool
+    return bg
+  }, [preloadImages])
 
   const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
     setToast({ message, type, visible: true })
@@ -125,9 +142,9 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
     hapticLight()
     const num = getRandomAyahNumber()
     setAyahNumber(num)
-    changeBg(getRandomBackground())
+    changeBg(getPreloadedBg())
     fetchAyah(num)
-  }, [fetchAyah, changeBg])
+  }, [fetchAyah, changeBg, getPreloadedBg])
 
   const handleSearch = useCallback(
     (surah: number, ayah: number) => {
@@ -293,7 +310,7 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
               <Controls
                 onRefresh={handleRefresh}
                 onSearch={() => setShowSearch(true)}
-                onChangeBackground={() => { hapticLight(); changeBg(getRandomBackground()) }}
+                onChangeBackground={() => { hapticLight(); changeBg(getPreloadedBg()) }}
                 onShare={handleShare}
                 reference={reference}
                 surahName={arabic.surah.englishName}

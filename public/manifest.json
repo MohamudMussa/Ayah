@@ -1,0 +1,26 @@
+{
+  "name": "Aayah — Daily Quran Verses",
+  "short_name": "Aayah",
+  "description": "Explore the beauty of the Quran through daily verses, multiple translations, and recitations from world-renowned Qaris.",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#111827",
+  "background_color": "#111827",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "lifestyle"]
+}

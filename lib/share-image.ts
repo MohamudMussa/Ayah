@@ -1,22 +1,32 @@
 /**
- * Renders the current ayah as a 1080x1920 image (Instagram Story size)
- * with a Fuji disposable camera aesthetic — warm tones, film grain, vignette.
+ * Renders the current ayah as a shareable image with Fuji disposable camera aesthetic.
+ * Supports multiple formats: Story (1080x1920), Square (1080x1080), Landscape (1200x630)
  */
+
+export type ShareFormat = 'story' | 'square' | 'landscape'
+
+const FORMAT_SIZES: Record<ShareFormat, { w: number; h: number }> = {
+  story: { w: 1080, h: 1920 },
+  square: { w: 1080, h: 1080 },
+  landscape: { w: 1200, h: 630 },
+}
+
 export async function renderAyahImage({
   arabicText,
   translationText,
   surahName,
   reference,
   backgroundUrl,
+  format = 'story',
 }: {
   arabicText: string
   translationText: string
   surahName: string
   reference: string
   backgroundUrl: string
+  format?: ShareFormat
 }): Promise<Blob> {
-  const W = 1080
-  const H = 1920
+  const { w: W, h: H } = FORMAT_SIZES[format]
   const canvas = document.createElement('canvas')
   canvas.width = W
   canvas.height = H
@@ -30,7 +40,6 @@ export async function renderAyahImage({
     const h = img.height * scale
     ctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h)
   } catch {
-    // Fallback: dark gradient
     const grad = ctx.createLinearGradient(0, 0, 0, H)
     grad.addColorStop(0, '#1a1a2e')
     grad.addColorStop(1, '#16213e')
@@ -46,36 +55,49 @@ export async function renderAyahImage({
   ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
   ctx.fillRect(0, 0, W, H)
 
+  // Scale factors for different formats
+  const s = format === 'landscape' ? 0.55 : format === 'square' ? 0.8 : 1
+
   // --- Measure content to size the card dynamically ---
-  const cardX = 60
-  const cardW = W - 120
-  const contentW = cardW - 100 // padding inside card
+  const cardMargin = Math.round(60 * s)
+  const cardX = cardMargin
+  const cardW = W - cardMargin * 2
+  const contentW = cardW - Math.round(100 * s)
   const centerX = W / 2
 
+  // Font sizes scaled by format
+  const surahFontSize = Math.round(26 * s)
+  const arabicFontSize = Math.round(48 * s)
+  const transFontSize = Math.round(30 * s)
+  const refFontSize = Math.round(24 * s)
+  const watermarkFontSize = Math.round(22 * s)
+
   // Measure surah name
-  ctx.font = '500 26px Inter, system-ui, sans-serif'
-  const surahLineH = 36
+  ctx.font = `500 ${surahFontSize}px Inter, system-ui, sans-serif`
+  const surahLineH = Math.round(36 * s)
 
   // Measure arabic text
-  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", "Amiri", serif'
+  ctx.font = `${arabicFontSize}px "Amiri Quran", "Noto Naskh Arabic", "Amiri", serif`
   ctx.direction = 'rtl'
-  const arabicLineH = 48 * 2
-  const arabicLines = wrapText(ctx, arabicText, contentW, arabicLineH)
+  const arabicLineH = Math.round(arabicFontSize * 2)
+  const maxArabicLines = format === 'landscape' ? 3 : format === 'square' ? 5 : 8
+  const arabicLines = wrapText(ctx, arabicText, contentW, arabicLineH).slice(0, maxArabicLines)
   ctx.direction = 'ltr'
 
   // Measure translation
-  ctx.font = '300 30px Inter, system-ui, sans-serif'
-  const transLineH = 44
-  const transLines = wrapText(ctx, `"${translationText}"`, contentW, transLineH)
+  ctx.font = `300 ${transFontSize}px Inter, system-ui, sans-serif`
+  const transLineH = Math.round(44 * s)
+  const maxTransLines = format === 'landscape' ? 3 : format === 'square' ? 4 : 8
+  const transLines = wrapText(ctx, `"${translationText}"`, contentW, transLineH).slice(0, maxTransLines)
 
   // Calculate total content height
-  const paddingTop = 80
-  const paddingBottom = 70
-  const gapAfterSurah = 60
-  const gapAfterArabic = 50
-  const gapAfterTranslation = 45
-  const dividerGap = 40
-  const refHeight = 30
+  const paddingTop = Math.round(80 * s)
+  const paddingBottom = Math.round(70 * s)
+  const gapAfterSurah = Math.round(60 * s)
+  const gapAfterArabic = Math.round(50 * s)
+  const gapAfterTranslation = Math.round(45 * s)
+  const dividerGap = Math.round(40 * s)
+  const refHeight = Math.round(30 * s)
 
   const totalContentH =
     paddingTop +
@@ -85,16 +107,17 @@ export async function renderAyahImage({
     gapAfterArabic +
     transLines.length * transLineH +
     gapAfterTranslation +
-    1 + // divider
+    1 +
     dividerGap +
     refHeight +
     paddingBottom
 
-  const cardH = Math.min(totalContentH, H - 300) // leave room for top/bottom
-  const cardY = (H - cardH) / 2 - 40 // slightly above center
-  const radius = 32
+  const maxCardH = format === 'landscape' ? H - 60 : H - 300
+  const cardH = Math.min(totalContentH, maxCardH)
+  const cardY = (H - cardH) / 2 - (format === 'landscape' ? 0 : 40)
+  const radius = Math.round(32 * s)
 
-  // Draw glass card — stronger for readability
+  // Draw glass card
   drawRoundedRect(ctx, cardX, cardY, cardW, cardH, radius)
   ctx.fillStyle = 'rgba(0, 0, 0, 0.55)'
   ctx.fill()
@@ -105,18 +128,18 @@ export async function renderAyahImage({
   // --- Draw text content ---
   let y = cardY + paddingTop
 
-  // Surah name — subtle, spaced out
+  // Surah name
   ctx.textAlign = 'center'
   ctx.fillStyle = 'rgba(255, 255, 255, 0.45)'
-  ctx.font = '500 26px Inter, system-ui, sans-serif'
+  ctx.font = `500 ${surahFontSize}px Inter, system-ui, sans-serif`
   ctx.letterSpacing = '4px'
-  ctx.fillText(surahName.toUpperCase(), centerX, y + 20)
+  ctx.fillText(surahName.toUpperCase(), centerX, y + Math.round(20 * s))
   ctx.letterSpacing = '0px'
   y += surahLineH + gapAfterSurah
 
-  // Arabic text — clear, well-spaced
+  // Arabic text
   ctx.fillStyle = 'rgba(255, 255, 255, 0.95)'
-  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", "Amiri", serif'
+  ctx.font = `${arabicFontSize}px "Amiri Quran", "Noto Naskh Arabic", "Amiri", serif`
   ctx.direction = 'rtl'
   ctx.textAlign = 'center'
   for (const line of arabicLines) {
@@ -126,9 +149,9 @@ export async function renderAyahImage({
   ctx.direction = 'ltr'
   y += gapAfterArabic
 
-  // Translation — brighter for readability
+  // Translation
   ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
-  ctx.font = '300 30px Inter, system-ui, sans-serif'
+  ctx.font = `300 ${transFontSize}px Inter, system-ui, sans-serif`
   ctx.textAlign = 'center'
   for (const line of transLines) {
     ctx.fillText(line, centerX, y)
@@ -147,21 +170,21 @@ export async function renderAyahImage({
 
   // Reference
   ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
-  ctx.font = '24px "Ubuntu Mono", monospace'
+  ctx.font = `${refFontSize}px "Ubuntu Mono", monospace`
   ctx.textAlign = 'center'
   ctx.fillText(reference, centerX, y)
 
-  // --- Film grain effect ---
+  // --- Film grain ---
   addFilmGrain(ctx, W, H)
 
   // --- Vignette ---
   addVignette(ctx, W, H)
 
-  // Watermark at bottom
+  // Watermark
   ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
-  ctx.font = '22px Inter, system-ui, sans-serif'
+  ctx.font = `${watermarkFontSize}px Inter, system-ui, sans-serif`
   ctx.textAlign = 'center'
-  ctx.fillText('www.aayah.one', centerX, H - 60)
+  ctx.fillText('www.aayah.one', centerX, H - Math.round(60 * s))
 
   return new Promise((resolve, reject) => {
     canvas.toBlob(
@@ -191,13 +214,13 @@ function drawRoundedRect(
 function addFilmGrain(ctx: CanvasRenderingContext2D, w: number, h: number) {
   const imageData = ctx.getImageData(0, 0, w, h)
   const data = imageData.data
-  const grainIntensity = 18 // subtle — like Fuji Superia 400
+  const grainIntensity = 18
 
   for (let i = 0; i < data.length; i += 4) {
     const noise = (Math.random() - 0.5) * grainIntensity * 2
-    data[i] = Math.min(255, Math.max(0, data[i] + noise))     // R
-    data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise)) // G
-    data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise)) // B
+    data[i] = Math.min(255, Math.max(0, data[i] + noise))
+    data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise))
+    data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise))
   }
 
   ctx.putImageData(imageData, 0, 0)
@@ -241,13 +264,12 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number,
   }
   if (line) lines.push(line)
 
-  // Cap at max lines to prevent overflow
-  return lines.slice(0, 8)
+  return lines
 }
 
 /**
- * Share the ayah as an image using the native Web Share API (for Instagram Stories, etc.)
- * Falls back to downloading the image if sharing isn't supported.
+ * Share the ayah image using native Web Share API.
+ * Falls back to downloading if sharing isn't supported.
  */
 export async function shareAyahImage(blob: Blob, reference: string): Promise<void> {
   const file = new File([blob], `ayah-${reference.replace(':', '-')}.png`, { type: 'image/png' })
@@ -256,7 +278,7 @@ export async function shareAyahImage(blob: Blob, reference: string): Promise<voi
     await navigator.share({
       files: [file],
       title: `Quran ${reference}`,
-      text: `Quran ${reference}`,
+      text: `Quran ${reference} — www.aayah.one`,
     })
   } else {
     // Fallback: download the image
@@ -267,4 +289,19 @@ export async function shareAyahImage(blob: Blob, reference: string): Promise<voi
     a.click()
     URL.revokeObjectURL(url)
   }
+}
+
+/**
+ * Copy image to clipboard for easy pasting
+ */
+export async function copyImageToClipboard(blob: Blob): Promise<boolean> {
+  try {
+    if (navigator.clipboard && 'write' in navigator.clipboard) {
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob }),
+      ])
+      return true
+    }
+  } catch {}
+  return false
 }
