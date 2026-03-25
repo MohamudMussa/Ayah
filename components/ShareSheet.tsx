@@ -16,6 +16,7 @@ interface ShareSheetProps {
   reference: string
   backgroundUrl: string
   onToast?: (message: string, type?: 'success' | 'error') => void
+  onShareComplete?: () => void
 }
 
 const formats: { id: ShareFormat; label: string; desc: string; icon: typeof Smartphone }[] = [
@@ -33,6 +34,7 @@ export default function ShareSheet({
   reference,
   backgroundUrl,
   onToast,
+  onShareComplete,
 }: ShareSheetProps) {
   const [generating, setGenerating] = useState<ShareFormat | null>(null)
   const [copied, setCopied] = useState(false)
@@ -52,6 +54,7 @@ export default function ShareSheet({
       await shareAyahImage(blob, reference)
       hapticSuccess()
       recordShare()
+      onShareComplete?.()
       onToast?.('Image shared!', 'success')
       onClose()
     } catch {
