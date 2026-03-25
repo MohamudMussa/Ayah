@@ -28,15 +28,17 @@ export default function AyahDisplay({ arabic, translation, animationKey }: AyahD
         </p>
       </div>
 
-      {/* Arabic text — quran.com style */}
+      {/* Arabic text — Uthmanic Mushaf style */}
       <h2
-        className="font-arabic text-lg md:text-2xl text-white/95"
+        className="font-arabic text-[24px] md:text-[34px] text-white"
         dir="rtl"
         lang="ar"
         style={{
-          lineHeight: 2,
-          wordSpacing: '0.05em',
+          lineHeight: 1.9,
+          wordSpacing: '0.08em',
+          letterSpacing: '0.01em',
           fontFeatureSettings: '"liga" 1, "calt" 1',
+          textRendering: 'optimizeLegibility',
         }}
       >
         {arabic.text}

@@ -1,4 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Lateef:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Ubuntu+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Ubuntu+Mono&display=swap');
+
+/* KFGQPC Uthmanic Script HAFS — the Mushaf font used by quran.com */
+@font-face {
+  font-family: 'KFGQPC Uthmanic Script HAFS';
+  src: url('/fonts/UthmanicHafs1_Ver09.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Uthman Taha Naskh';
+  src: url('/fonts/UthmanTN1_Ver10.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -81,7 +98,9 @@ body {
 }
 
 .font-arabic {
-  font-family: 'Amiri Quran', 'Noto Naskh Arabic', 'Amiri', 'Lateef', serif;
+  font-family: 'Amiri Quran', 'Noto Naskh Arabic', 'Amiri', serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* Custom scrollbar */

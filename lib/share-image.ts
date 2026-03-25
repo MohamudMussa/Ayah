@@ -57,7 +57,7 @@ export async function renderAyahImage({
   const surahLineH = 36
 
   // Measure arabic text
-  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", Amiri, serif'
+  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", "Amiri", serif'
   ctx.direction = 'rtl'
   const arabicLineH = 48 * 2
   const arabicLines = wrapText(ctx, arabicText, contentW, arabicLineH)
@@ -116,7 +116,7 @@ export async function renderAyahImage({
 
   // Arabic text — clear, well-spaced
   ctx.fillStyle = 'rgba(255, 255, 255, 0.95)'
-  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", Amiri, serif'
+  ctx.font = '48px "Amiri Quran", "Noto Naskh Arabic", "Amiri", serif'
   ctx.direction = 'rtl'
   ctx.textAlign = 'center'
   for (const line of arabicLines) {
