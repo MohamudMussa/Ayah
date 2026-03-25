@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   RefreshCw,
@@ -70,6 +70,14 @@ export default function Controls({
 }: ControlsProps) {
   const [showShareSheet, setShowShareSheet] = useState(false)
   const [quickSharing, setQuickSharing] = useState(false)
+  const [shareCount, setShareCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(r => r.json())
+      .then(d => { if (d.shares > 0) setShareCount(d.shares) })
+      .catch(() => {})
+  }, [])
 
   // Quick share: generates story format and shares immediately
   const handleQuickShare = async () => {
@@ -87,6 +95,7 @@ export default function Controls({
       await shareAyahImage(blob, reference)
       hapticSuccess()
       recordShare()
+      setShareCount(prev => (prev ?? 0) + 1)
       onToast?.('Image ready to share!', 'success')
     } catch {
       onShare()
@@ -117,7 +126,7 @@ export default function Controls({
           ) : (
             <Share className="w-3.5 h-3.5" />
           )}
-          Share
+          Share{shareCount ? ` · ${shareCount >= 1000 ? `${(shareCount/1000).toFixed(1)}K` : shareCount}` : ''}
         </motion.button>
 
         {/* More formats link */}
