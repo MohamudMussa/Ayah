@@ -13,6 +13,7 @@ import BookmarkButton from './BookmarkButton'
 import ShareSheet from './ShareSheet'
 import { renderAyahImage, shareAyahImage } from '@/lib/share-image'
 import { hapticMedium, hapticSuccess } from '@/lib/haptics'
+import { recordShare } from './StatsDisplay'
 
 interface ControlsProps {
   onRefresh: () => void
@@ -85,6 +86,7 @@ export default function Controls({
       })
       await shareAyahImage(blob, reference)
       hapticSuccess()
+      recordShare()
       onToast?.('Image ready to share!', 'success')
     } catch {
       onShare()

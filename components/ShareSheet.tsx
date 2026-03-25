@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Smartphone, Square, Monitor, Copy, Loader2, Check } from 'lucide-react'
 import { renderAyahImage, shareAyahImage, copyImageToClipboard, type ShareFormat } from '@/lib/share-image'
 import { hapticMedium, hapticSuccess } from '@/lib/haptics'
+import { recordShare } from './StatsDisplay'
 
 interface ShareSheetProps {
   isOpen: boolean
@@ -50,6 +51,7 @@ export default function ShareSheet({
       })
       await shareAyahImage(blob, reference)
       hapticSuccess()
+      recordShare()
       onToast?.('Image shared!', 'success')
       onClose()
     } catch {

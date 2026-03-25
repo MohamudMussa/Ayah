@@ -16,6 +16,7 @@ import TranslationSelector from '@/components/TranslationSelector'
 import TafsirSection from '@/components/TafsirSection'
 import AyahSkeleton from '@/components/Skeleton'
 import Toast from '@/components/Toast'
+import StatsDisplay from '@/components/StatsDisplay'
 
 import { usePreferences } from '@/hooks/usePreferences'
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
@@ -260,6 +261,9 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
         }}
       />
       {/* Content layer — above backgrounds */}
+      {/* Stats (top-left, subtle) */}
+      <StatsDisplay />
+
       {/* Top bar */}
       <div className="fixed top-4 right-4 z-40">
         <button
