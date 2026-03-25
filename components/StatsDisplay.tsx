@@ -36,8 +36,8 @@ export default function StatsDisplay() {
 
   return (
     <div
-      className="fixed top-4 left-4 z-40 flex items-center gap-3 text-[10px] text-white/30 font-medium tracking-wide"
-      style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+      className="fixed top-4 left-4 z-40 flex items-center gap-3 text-[10px] text-white/50 font-medium tracking-wide"
+      style={{ fontFamily: 'Inter, system-ui, sans-serif', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
     >
       <span className="flex items-center gap-1">
         <Eye className="w-3 h-3" />
