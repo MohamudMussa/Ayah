@@ -66,6 +66,9 @@ export const BACKGROUNDS = [
   'fjord.jpg', 'dolomites.jpg', 'sahara.jpg', 'iceland_moss.jpg',
   'glacier.jpg', 'cliff_ocean.jpg', 'volcano.jpg',
   'snow_trees.jpg', 'storm_sky.jpg',
+  // Space
+  'space_nebula.jpg', 'space_stars.jpg', 'space_earth.jpg', 'space_milkyway.jpg',
+  'space_galaxy.jpg', 'space_aurora.jpg', 'space_starfield.jpg', 'space_deep.jpg',
 ]
 
 export type ReciterId = typeof RECITERS[number]['id']
