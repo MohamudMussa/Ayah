@@ -47,8 +47,8 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
   const [showSearch, setShowSearch] = useState(false)
   const [showBookmarks, setShowBookmarks] = useState(false)
   const [bgImage, setBgImage] = useState(initialBgImage)
-  const [prevBgImage, setPrevBgImage] = useState<string | null>(null)
-  const [bgTransitioning, setBgTransitioning] = useState(false)
+  const [nextBgImage, setNextBgImage] = useState<string | null>(null)
+  const [bgKey, setBgKey] = useState(0)
   const [ayahNumber, setAyahNumber] = useState(initialData?.ayahNumber ?? 1)
   const { bookmarks } = useBookmarks()
   const hasBookmarks = bookmarks.length > 0
@@ -58,16 +58,11 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
     setToast({ message, type, visible: true })
   }, [])
 
-  // Smooth background crossfade
+  // Simple crossfade: set new image on top, after it fades in, swap base
   const changeBg = useCallback((newBg: string) => {
-    setPrevBgImage(bgImage)
-    setBgImage(newBg)
-    setBgTransitioning(true)
-    setTimeout(() => {
-      setPrevBgImage(null)
-      setBgTransitioning(false)
-    }, 800)
-  }, [bgImage])
+    setNextBgImage(newBg)
+    setBgKey((k) => k + 1)
+  }, [])
 
   // On mount: if user's saved reciter/translation differs from defaults, re-fetch
   useEffect(() => {
@@ -221,41 +216,36 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
     <div className="relative min-h-[100dvh] flex flex-col items-center justify-center px-3 py-4 md:p-4 overflow-hidden"
       style={{ backgroundColor: '#111827' }}
     >
-      {/* Background crossfade layers */}
-      {prevBgImage && (
-        <div
-          className="absolute inset-0 transition-opacity duration-700 ease-out"
-          style={{
-            backgroundImage: `url('${prevBgImage}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: bgTransitioning ? 0 : 1,
-          }}
-        />
-      )}
+      {/* Background — base layer */}
       <div
-        className="absolute inset-0 transition-opacity duration-700 ease-in"
+        className="absolute inset-0"
         style={{
           backgroundImage: bgImage ? `url('${bgImage}')` : undefined,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          opacity: bgTransitioning ? 0 : 1,
         }}
       />
-      {/* New bg fades in */}
-      {bgTransitioning && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7 }}
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url('${bgImage}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-      )}
+      {/* Background — crossfade layer */}
+      <AnimatePresence>
+        {nextBgImage && (
+          <motion.div
+            key={bgKey}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, ease: 'easeInOut' }}
+            onAnimationComplete={() => {
+              setBgImage(nextBgImage)
+              setNextBgImage(null)
+            }}
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url('${nextBgImage}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        )}
+      </AnimatePresence>
       {/* Content layer — above backgrounds */}
       {/* Top bar */}
       <div className="fixed top-4 right-4 z-40">
@@ -272,10 +262,10 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
         </button>
       </div>
 
-      {/* Main card */}
-      <div className="relative z-10 glass-card w-full max-w-lg p-4 md:p-8 space-y-3 md:space-y-5">
-        {/* Ayah content */}
-        <AnimatePresence mode="wait">
+      {/* Main card — min-height prevents jarring resize between short/long ayahs */}
+      <div className="relative z-10 glass-card w-full max-w-lg p-4 md:p-8 space-y-3 md:space-y-5 min-h-[420px] md:min-h-[480px] transition-all duration-500 ease-out">
+        {/* Ayah content — crossfade, no wait mode to avoid size collapse */}
+        <AnimatePresence mode="popLayout">
           {loading ? (
             <AyahSkeleton key="skeleton" />
           ) : arabic && english ? (
@@ -290,36 +280,44 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
           )}
         </AnimatePresence>
 
-        {/* Tafsir */}
-        {arabic && !loading && (
-          <TafsirSection reference={arabic.number} />
-        )}
+        {/* Tafsir + Audio + Controls — fade in after ayah */}
+        <AnimatePresence>
+          {!loading && arabic && english && (
+            <motion.div
+              key={`controls-${arabic.number}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, delay: 0.35 }}
+              className="space-y-3 md:space-y-4"
+            >
+              <TafsirSection reference={arabic.number} />
 
-        {/* Audio + Controls inline */}
-        {!loading && arabic && english && (
-          <div className="space-y-2 md:space-y-3">
-            <AudioPlayer url={audioUrl} reciterName={reciterName} />
-            <Controls
-              onRefresh={handleRefresh}
-              onSearch={() => setShowSearch(true)}
-              onChangeBackground={() => { hapticLight(); changeBg(getRandomBackground()) }}
-              onShare={handleShare}
-              reference={reference}
-              surahName={arabic.surah.englishName}
-              surahNameArabic={arabic.surah.name}
-              translationText={english.text}
-              arabicText={arabic.text}
-              backgroundUrl={bgImage}
-              onToast={showToast}
-            />
-          </div>
-        )}
+              <div className="space-y-2 md:space-y-3">
+                <AudioPlayer url={audioUrl} reciterName={reciterName} />
+                <Controls
+                  onRefresh={handleRefresh}
+                  onSearch={() => setShowSearch(true)}
+                  onChangeBackground={() => { hapticLight(); changeBg(getRandomBackground()) }}
+                  onShare={handleShare}
+                  reference={reference}
+                  surahName={arabic.surah.englishName}
+                  surahNameArabic={arabic.surah.name}
+                  translationText={english.text}
+                  arabicText={arabic.text}
+                  backgroundUrl={bgImage}
+                  onToast={showToast}
+                />
+              </div>
 
-        {/* Selectors */}
-        <div className="flex items-center gap-2 w-full">
-          <ReciterSelector value={reciter} onChange={handleReciterChange} />
-          <TranslationSelector value={translation} onChange={handleTranslationChange} />
-        </div>
+              {/* Selectors */}
+              <div className="flex items-center gap-2 w-full">
+                <ReciterSelector value={reciter} onChange={handleReciterChange} />
+                <TranslationSelector value={translation} onChange={handleTranslationChange} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
 

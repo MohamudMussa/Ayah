@@ -74,6 +74,17 @@
   .skeleton {
     @apply animate-pulse bg-white/10 rounded-lg;
   }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.08) 40%,
+      rgba(255, 255, 255, 0.04) 80%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
 }
 
 html {
@@ -184,4 +195,9 @@ input[type='range']::-moz-range-thumb {
   border-radius: 50%;
   background: white;
   border: none;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
