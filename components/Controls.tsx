@@ -6,9 +6,7 @@ import {
   RefreshCw,
   Search,
   Image as ImageIcon,
-  Share2,
-  Link2,
-  Download,
+  Upload,
   Loader2,
 } from 'lucide-react'
 import BookmarkButton from './BookmarkButton'
@@ -67,12 +65,6 @@ export default function Controls({
 }: ControlsProps) {
   const [sharing, setSharing] = useState(false)
 
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(`${window.location.origin}/ayah/${reference}`)
-    } catch {}
-  }
-
   const handleShareImage = async () => {
     setSharing(true)
     try {
@@ -93,37 +85,45 @@ export default function Controls({
   }
 
   return (
-    <div className="flex items-center justify-center gap-1 md:gap-2">
-      <ControlButton onClick={onRefresh} label="Random Ayah (R)">
-        <RefreshCw className="w-3.5 h-3.5 md:w-4 md:h-4" />
-      </ControlButton>
-
-      <ControlButton onClick={onSearch} label="Search (S)">
-        <Search className="w-3.5 h-3.5 md:w-4 md:h-4" />
-      </ControlButton>
-
-      <BookmarkButton
-        reference={reference}
-        surahName={surahName}
-        surahNameArabic={surahNameArabic}
-        translationText={translationText}
-      />
-
-      <ControlButton onClick={copyLink} label="Copy Link">
-        <Link2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
-      </ControlButton>
-
-      <ControlButton onClick={handleShareImage} label="Share Image" disabled={sharing}>
+    <div className="flex flex-col items-center gap-2">
+      {/* Share button — prominent */}
+      <motion.button
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        onClick={handleShareImage}
+        disabled={sharing}
+        className="flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/15 text-white/70 hover:bg-white/15 hover:text-white/90 transition-all text-xs font-medium"
+        aria-label="Share"
+      >
         {sharing ? (
-          <Loader2 className="w-3.5 h-3.5 md:w-4 md:h-4 animate-spin" />
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
         ) : (
-          <Share2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          <Upload className="w-3.5 h-3.5" />
         )}
-      </ControlButton>
+        Share
+      </motion.button>
 
-      <ControlButton onClick={onChangeBackground} label="Change Background">
-        <ImageIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-      </ControlButton>
+      {/* Other controls */}
+      <div className="flex items-center justify-center gap-1 md:gap-2">
+        <ControlButton onClick={onRefresh} label="Random Ayah (R)">
+          <RefreshCw className="w-3.5 h-3.5 md:w-4 md:h-4" />
+        </ControlButton>
+
+        <ControlButton onClick={onSearch} label="Search (S)">
+          <Search className="w-3.5 h-3.5 md:w-4 md:h-4" />
+        </ControlButton>
+
+        <BookmarkButton
+          reference={reference}
+          surahName={surahName}
+          surahNameArabic={surahNameArabic}
+          translationText={translationText}
+        />
+
+        <ControlButton onClick={onChangeBackground} label="Change Background">
+          <ImageIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
+        </ControlButton>
+      </div>
     </div>
   )
 }

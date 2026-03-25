@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Bookmark as BookmarkIcon } from 'lucide-react'
 
+import { useBookmarks } from '@/hooks/useBookmarks'
 import AyahDisplay from '@/components/AyahDisplay'
 import AudioPlayer from '@/components/AudioPlayer'
 import Controls from '@/components/Controls'
@@ -44,6 +45,8 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
   const [showBookmarks, setShowBookmarks] = useState(false)
   const [bgImage, setBgImage] = useState(initialBgImage)
   const [ayahNumber, setAyahNumber] = useState(initialData?.ayahNumber ?? 1)
+  const { bookmarks } = useBookmarks()
+  const hasBookmarks = bookmarks.length > 0
 
   // On mount: if user's saved reciter/translation differs from defaults, re-fetch
   useEffect(() => {
@@ -196,10 +199,14 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
       <div className="fixed top-4 right-4 z-40">
         <button
           onClick={() => setShowBookmarks(true)}
-          className="text-white/30 hover:text-white/60 transition-colors"
+          className={`transition-all duration-300 ${
+            hasBookmarks
+              ? 'text-amber-400/80 hover:text-amber-300 drop-shadow-[0_0_4px_rgba(251,191,36,0.3)]'
+              : 'text-white/30 hover:text-white/60'
+          }`}
           title="Bookmarks"
         >
-          <BookmarkIcon className="w-4 h-4" />
+          <BookmarkIcon className={`w-5 h-5 ${hasBookmarks ? 'fill-amber-400/60' : ''}`} />
         </button>
       </div>
 
@@ -246,9 +253,8 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
         )}
 
         {/* Selectors */}
-        <div className="flex items-center justify-center gap-1.5 w-full">
+        <div className="flex items-center gap-2 w-full">
           <ReciterSelector value={reciter} onChange={handleReciterChange} />
-          <span className="text-white/15 text-[8px] shrink-0">•</span>
           <TranslationSelector value={translation} onChange={handleTranslationChange} />
         </div>
 

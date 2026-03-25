@@ -19,11 +19,11 @@ export default function TranslationSelector({ value, onChange }: TranslationSele
   )
 
   return (
-    <div className="relative flex items-center min-w-0 flex-1 max-w-[45%]">
+    <div className="relative flex items-center min-w-0 flex-1">
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as TranslationId)}
-        className="text-[10px] w-full bg-white/[0.04] border border-white/[0.08] rounded-full pl-2.5 pr-5 py-1 text-white/40 hover:text-white/60 hover:bg-white/[0.08] focus:outline-none appearance-none cursor-pointer transition-colors truncate"
+        className="text-[10px] md:text-[11px] w-full bg-white/[0.06] border border-white/[0.1] rounded-lg pl-2.5 pr-6 py-1.5 text-white/50 hover:text-white/70 hover:bg-white/[0.1] focus:outline-none appearance-none cursor-pointer transition-colors truncate"
         aria-label="Select translation"
       >
         {Object.entries(grouped).map(([language, translations]) => (
@@ -36,7 +36,7 @@ export default function TranslationSelector({ value, onChange }: TranslationSele
           </optgroup>
         ))}
       </select>
-      <ChevronDown className="w-2.5 h-2.5 text-white/30 absolute right-1.5 pointer-events-none" />
+      <ChevronDown className="w-3 h-3 text-white/40 absolute right-2 pointer-events-none" />
     </div>
   )
 }
