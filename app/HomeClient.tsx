@@ -264,11 +264,12 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
 
       {/* Main card — min-height prevents jarring resize between short/long ayahs */}
       <div className="relative z-10 glass-card w-full max-w-lg p-4 md:p-8 space-y-3 md:space-y-5 min-h-[420px] md:min-h-[480px] transition-all duration-500 ease-out">
-        {/* Ayah content — crossfade, no wait mode to avoid size collapse */}
-        <AnimatePresence mode="popLayout">
-          {loading ? (
-            <AyahSkeleton key="skeleton" />
-          ) : arabic && english ? (
+        {/* Ayah content — fade out when loading, fade in when ready */}
+        <div
+          className="min-h-[200px] transition-opacity duration-300 ease-out"
+          style={{ opacity: loading ? 0 : 1 }}
+        >
+          {arabic && english ? (
             <AyahDisplay
               key={arabic.number}
               arabic={arabic}
@@ -276,48 +277,44 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
               animationKey={arabic.number}
             />
           ) : (
-            <AyahSkeleton key="initial-skeleton" />
+            <AyahSkeleton />
           )}
-        </AnimatePresence>
+        </div>
 
-        {/* Tafsir + Audio + Controls — fade in after ayah */}
-        <AnimatePresence>
-          {!loading && arabic && english && (
-            <motion.div
-              key={`controls-${arabic.number}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, delay: 0.35 }}
-              className="space-y-3 md:space-y-4"
-            >
-              <TafsirSection reference={arabic.number} />
-
-              <div className="space-y-2 md:space-y-3">
-                <AudioPlayer url={audioUrl} reciterName={reciterName} />
-                <Controls
-                  onRefresh={handleRefresh}
-                  onSearch={() => setShowSearch(true)}
-                  onChangeBackground={() => { hapticLight(); changeBg(getRandomBackground()) }}
-                  onShare={handleShare}
-                  reference={reference}
-                  surahName={arabic.surah.englishName}
-                  surahNameArabic={arabic.surah.name}
-                  translationText={english.text}
-                  arabicText={arabic.text}
-                  backgroundUrl={bgImage}
-                  onToast={showToast}
-                />
-              </div>
-
-              {/* Selectors */}
-              <div className="flex items-center gap-2 w-full">
-                <ReciterSelector value={reciter} onChange={handleReciterChange} />
-                <TranslationSelector value={translation} onChange={handleTranslationChange} />
-              </div>
-            </motion.div>
+        {/* Tafsir + Audio + Controls — fade with content */}
+        <div
+          className="space-y-3 md:space-y-4 transition-opacity duration-300 ease-out"
+          style={{ opacity: loading || !arabic || !english ? 0 : 1 }}
+        >
+          {arabic && (
+            <TafsirSection reference={arabic.number} />
           )}
-        </AnimatePresence>
+
+          <div className="space-y-2 md:space-y-3">
+            <AudioPlayer url={audioUrl} reciterName={reciterName} />
+            {arabic && english && (
+              <Controls
+                onRefresh={handleRefresh}
+                onSearch={() => setShowSearch(true)}
+                onChangeBackground={() => { hapticLight(); changeBg(getRandomBackground()) }}
+                onShare={handleShare}
+                reference={reference}
+                surahName={arabic.surah.englishName}
+                surahNameArabic={arabic.surah.name}
+                translationText={english.text}
+                arabicText={arabic.text}
+                backgroundUrl={bgImage}
+                onToast={showToast}
+              />
+            )}
+          </div>
+
+          {/* Selectors */}
+          <div className="flex items-center gap-2 w-full">
+            <ReciterSelector value={reciter} onChange={handleReciterChange} />
+            <TranslationSelector value={translation} onChange={handleTranslationChange} />
+          </div>
+        </div>
 
       </div>
 
