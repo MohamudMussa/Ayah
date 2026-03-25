@@ -40,7 +40,7 @@ export default function AyahPageClient({ initialArabic, initialEnglish, referenc
   }, [])
 
   useEffect(() => {
-    if (reciter !== 'ar.alafasy') {
+    if (reciter !== 'ar.hudhaify') {
       fetch(`https://api.alquran.cloud/v1/ayah/${reference}/${reciter}`)
         .then((res) => res.json())
         .then((json) => setAudioUrl(json.data.audio))

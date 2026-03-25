@@ -3,8 +3,8 @@ export const TOTAL_AYAHS = 6236
 export const API_BASE = 'https://api.alquran.cloud/v1'
 
 export const RECITERS = [
-  { id: 'ar.alafasy', name: 'Mishary Rashid Alafasy' },
   { id: 'ar.hudhaify', name: 'Ali Al-Hudhaify' },
+  { id: 'ar.alafasy', name: 'Mishary Rashid Alafasy' },
   { id: 'ar.minshawi', name: 'Mohamed Siddiq El-Minshawi' },
   { id: 'ar.abdulsamad', name: 'Abdul Samad' },
   { id: 'ar.shaatree', name: 'Abu Bakr Ash-Shaatree' },

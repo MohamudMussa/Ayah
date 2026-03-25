@@ -27,7 +27,7 @@ function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T) => voi
 }
 
 export function usePreferences() {
-  const [reciter, setReciter] = useLocalStorage<ReciterId>('ayah-reciter', 'ar.alafasy')
+  const [reciter, setReciter] = useLocalStorage<ReciterId>('ayah-reciter', 'ar.hudhaify')
   const [translation, setTranslation] = useLocalStorage<TranslationId>('ayah-translation', 'en.sahih')
 
   return { reciter, setReciter, translation, setTranslation }

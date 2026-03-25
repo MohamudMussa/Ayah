@@ -9,7 +9,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const editions = await getAyah(params.reference, ['ar.alafasy', 'en.sahih'])
+    const editions = await getAyah(params.reference, ['ar.hudhaify', 'en.sahih'])
     const english = editions.find((e) => e.edition?.language === 'en')
     const arabic = editions.find((e) => e.edition?.language === 'ar')
 
@@ -43,7 +43,7 @@ export default async function AyahPage({ params }: Props) {
   let english: AyahData | undefined
 
   try {
-    const editions = await getAyah(params.reference, ['ar.alafasy', 'en.sahih'])
+    const editions = await getAyah(params.reference, ['ar.hudhaify', 'en.sahih'])
     arabic = editions.find((e) => e.edition?.language === 'ar')
     english = editions.find((e) => e.edition?.language === 'en')
   } catch {

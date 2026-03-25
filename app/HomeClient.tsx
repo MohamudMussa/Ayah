@@ -49,7 +49,7 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
   useEffect(() => {
     if (!initialData) return
     const num = initialData.ayahNumber
-    const needsReciter = reciter !== 'ar.alafasy'
+    const needsReciter = reciter !== 'ar.hudhaify'
     const needsTranslation = translation !== 'en.sahih'
 
     if (needsReciter) {
