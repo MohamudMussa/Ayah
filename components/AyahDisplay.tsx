@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import type { AyahData } from '@/lib/api'
 
 interface AyahDisplayProps {
@@ -9,75 +9,37 @@ interface AyahDisplayProps {
   animationKey?: string | number
 }
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.05,
-    },
-  },
-  exit: {
-    opacity: 0,
-    transition: { duration: 0.15 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 8, filter: 'blur(4px)' },
-  show: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-}
-
-// Word-by-word stagger for Arabic text
-const wordContainer = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.035,
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const wordItem = {
-  hidden: { opacity: 0, y: 6, filter: 'blur(6px)' },
-  show: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-}
-
 export default function AyahDisplay({ arabic, translation, animationKey }: AyahDisplayProps) {
   const surah = arabic.surah
   const arabicWords = arabic.text.split(' ')
+  const [visible, setVisible] = useState(false)
+
+  // Trigger entrance animation after mount
+  useEffect(() => {
+    setVisible(false)
+    const t = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setVisible(true))
+    })
+    return () => cancelAnimationFrame(t)
+  }, [animationKey])
 
   return (
-    <motion.div
-      key={animationKey}
-      variants={container}
-      initial="hidden"
-      animate="show"
-      exit="exit"
-      className="flex flex-col items-center gap-2 md:gap-4 text-center text-white"
+    <div
+      className="flex flex-col items-center gap-2 md:gap-4 text-center text-white transition-all duration-500 ease-out"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(12px)',
+      }}
     >
       {/* Surah info */}
-      <motion.div variants={item} className="space-y-0.5">
+      <div className="space-y-0.5">
         <p className="text-[10px] md:text-[11px] font-medium tracking-wider text-white/40 uppercase">
           {surah.englishName} — {surah.englishNameTranslation}
         </p>
-      </motion.div>
+      </div>
 
-      {/* Arabic text — word by word animation */}
-      <motion.h2
-        variants={wordContainer}
+      {/* Arabic text — word by word stagger */}
+      <h2
         className="font-arabic text-lg md:text-2xl text-white/95"
         dir="rtl"
         lang="ar"
@@ -88,30 +50,47 @@ export default function AyahDisplay({ arabic, translation, animationKey }: AyahD
         }}
       >
         {arabicWords.map((word, i) => (
-          <motion.span
+          <span
             key={`${animationKey}-${i}`}
-            variants={wordItem}
-            className="inline-block"
-            style={{ marginLeft: '0.25em' }}
+            className="inline-block transition-all ease-out"
+            style={{
+              opacity: visible ? 1 : 0,
+              filter: visible ? 'blur(0px)' : 'blur(6px)',
+              transitionDuration: '450ms',
+              transitionDelay: visible ? `${200 + i * 40}ms` : '0ms',
+            }}
           >
-            {word}
-          </motion.span>
+            {word}{i < arabicWords.length - 1 ? '\u00A0' : ''}
+          </span>
         ))}
-      </motion.h2>
+      </h2>
 
       {/* Translation */}
-      <motion.p variants={item} className="text-[12px] md:text-sm leading-relaxed text-white/55 max-w-md">
+      <p
+        className="text-[12px] md:text-sm leading-relaxed text-white/55 max-w-md transition-all duration-500 ease-out"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(8px)',
+          transitionDelay: visible ? '400ms' : '0ms',
+        }}
+      >
         {translation.text}
-      </motion.p>
+      </p>
 
       {/* Divider + reference */}
-      <motion.div variants={item} className="flex items-center gap-2 text-white/25">
+      <div
+        className="flex items-center gap-2 text-white/25 transition-all duration-500 ease-out"
+        style={{
+          opacity: visible ? 1 : 0,
+          transitionDelay: visible ? '500ms' : '0ms',
+        }}
+      >
         <div className="w-6 h-px bg-white/15" />
         <span className="text-[10px] font-mono">
           {surah.number}:{arabic.numberInSurah}
         </span>
         <div className="w-6 h-px bg-white/15" />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }

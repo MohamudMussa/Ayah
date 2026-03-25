@@ -134,7 +134,7 @@ export default function AyahPageClient({ initialArabic, initialEnglish, referenc
       <div className="glass-card w-full max-w-lg p-5 md:p-8 space-y-5">
         <AyahDisplay arabic={arabic} translation={english} />
 
-        <TafsirSection reference={arabic.number} />
+        <TafsirSection surahAyahRef={`${arabic.surah.number}:${arabic.numberInSurah}`} />
 
         <AudioPlayer url={audioUrl} reciterName={reciterName} />
 

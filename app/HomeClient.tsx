@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Bookmark as BookmarkIcon } from 'lucide-react'
 
@@ -278,14 +277,10 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
 
       {/* Main card — min-height prevents jarring resize between short/long ayahs */}
       <div className="relative z-10 glass-card w-full max-w-lg p-4 md:p-8 space-y-3 md:space-y-5 min-h-[420px] md:min-h-[480px] transition-all duration-500 ease-out">
-        {/* Ayah content — fade out when loading, fade in when ready */}
-        <div
-          className="min-h-[200px] transition-opacity duration-300 ease-out"
-          style={{ opacity: loading ? 0 : 1 }}
-        >
+        {/* Ayah content */}
+        <div className="min-h-[200px]">
           {arabic && english ? (
             <AyahDisplay
-              key={arabic.number}
               arabic={arabic}
               translation={english}
               animationKey={arabic.number}
@@ -295,13 +290,13 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
           )}
         </div>
 
-        {/* Tafsir + Audio + Controls — fade with content */}
+        {/* Tafsir + Audio + Controls */}
         <div
           className="space-y-3 md:space-y-4 transition-opacity duration-300 ease-out"
-          style={{ opacity: loading || !arabic || !english ? 0 : 1 }}
+          style={{ opacity: !arabic || !english ? 0 : 1 }}
         >
           {arabic && (
-            <TafsirSection reference={arabic.number} />
+            <TafsirSection surahAyahRef={reference} />
           )}
 
           <div className="space-y-2 md:space-y-3">
