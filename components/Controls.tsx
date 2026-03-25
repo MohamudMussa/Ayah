@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import BookmarkButton from './BookmarkButton'
 import { renderAyahImage, shareAyahImage } from '@/lib/share-image'
+import { hapticMedium, hapticSuccess } from '@/lib/haptics'
 
 interface ControlsProps {
   onRefresh: () => void
@@ -23,6 +24,7 @@ interface ControlsProps {
   translationText: string
   arabicText: string
   backgroundUrl: string
+  onToast?: (message: string, type?: 'success' | 'error') => void
 }
 
 function ControlButton({
@@ -62,10 +64,12 @@ export default function Controls({
   translationText,
   arabicText,
   backgroundUrl,
+  onToast,
 }: ControlsProps) {
   const [sharing, setSharing] = useState(false)
 
   const handleShareImage = async () => {
+    hapticMedium()
     setSharing(true)
     try {
       const blob = await renderAyahImage({
@@ -76,9 +80,12 @@ export default function Controls({
         backgroundUrl,
       })
       await shareAyahImage(blob, reference)
+      hapticSuccess()
+      onToast?.('Image ready to share!', 'success')
     } catch {
       // Fallback to text share
       onShare()
+      onToast?.('Shared as text', 'success')
     } finally {
       setSharing(false)
     }
