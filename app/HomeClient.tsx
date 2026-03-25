@@ -46,9 +46,9 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
   const [loading, setLoading] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
   const [showBookmarks, setShowBookmarks] = useState(false)
-  const [bgImage, setBgImage] = useState(initialBgImage)
-  const [nextBgImage, setNextBgImage] = useState<string | null>(null)
-  const [bgKey, setBgKey] = useState(0)
+  // Two-slot crossfade: slot A and B alternate, CSS opacity handles the transition
+  const [bgSlots, setBgSlots] = useState<[string, string]>([initialBgImage, initialBgImage])
+  const [activeSlot, setActiveSlot] = useState<0 | 1>(0)
   const [ayahNumber, setAyahNumber] = useState(initialData?.ayahNumber ?? 1)
   const { bookmarks } = useBookmarks()
   const hasBookmarks = bookmarks.length > 0
@@ -58,11 +58,19 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
     setToast({ message, type, visible: true })
   }, [])
 
-  // Simple crossfade: set new image on top, after it fades in, swap base
+  // Crossfade: load new image into inactive slot, then swap active
   const changeBg = useCallback((newBg: string) => {
-    setNextBgImage(newBg)
-    setBgKey((k) => k + 1)
-  }, [])
+    const inactiveSlot = activeSlot === 0 ? 1 : 0
+    setBgSlots((prev) => {
+      const next = [...prev] as [string, string]
+      next[inactiveSlot] = newBg
+      return next
+    })
+    // Small delay so the inactive slot has the new image before we fade to it
+    requestAnimationFrame(() => {
+      setActiveSlot(inactiveSlot as 0 | 1)
+    })
+  }, [activeSlot])
 
   // On mount: if user's saved reciter/translation differs from defaults, re-fetch
   useEffect(() => {
@@ -142,18 +150,16 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
     hapticLight()
     const next = arabic.number < TOTAL_AYAHS ? arabic.number + 1 : 1
     setAyahNumber(next)
-    changeBg(getRandomBackground())
     fetchAyah(next)
-  }, [arabic, fetchAyah, changeBg])
+  }, [arabic, fetchAyah])
 
   const handlePrevious = useCallback(() => {
     if (!arabic) return
     hapticLight()
     const prev = arabic.number > 1 ? arabic.number - 1 : TOTAL_AYAHS
     setAyahNumber(prev)
-    changeBg(getRandomBackground())
     fetchAyah(prev)
-  }, [arabic, fetchAyah, changeBg])
+  }, [arabic, fetchAyah])
 
   // Swipe left = next ayah, swipe right = previous ayah
   useSwipeGesture({
@@ -216,36 +222,27 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
     <div className="relative min-h-[100dvh] flex flex-col items-center justify-center px-3 py-4 md:p-4 overflow-hidden"
       style={{ backgroundColor: '#111827' }}
     >
-      {/* Background — base layer */}
+      {/* Background — two permanent layers, CSS opacity crossfade */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 transition-opacity duration-[900ms] ease-in-out"
         style={{
-          backgroundImage: bgImage ? `url('${bgImage}')` : undefined,
+          backgroundImage: `url('${bgSlots[0]}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          opacity: activeSlot === 0 ? 1 : 0,
+          zIndex: 0,
         }}
       />
-      {/* Background — crossfade layer */}
-      <AnimatePresence>
-        {nextBgImage && (
-          <motion.div
-            key={bgKey}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, ease: 'easeInOut' }}
-            onAnimationComplete={() => {
-              setBgImage(nextBgImage)
-              setNextBgImage(null)
-            }}
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `url('${nextBgImage}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-        )}
-      </AnimatePresence>
+      <div
+        className="absolute inset-0 transition-opacity duration-[900ms] ease-in-out"
+        style={{
+          backgroundImage: `url('${bgSlots[1]}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: activeSlot === 1 ? 1 : 0,
+          zIndex: 1,
+        }}
+      />
       {/* Content layer — above backgrounds */}
       {/* Top bar */}
       <div className="fixed top-4 right-4 z-40">
@@ -303,7 +300,7 @@ export default function HomeClient({ initialData, initialBgImage }: HomeClientPr
                 surahNameArabic={arabic.surah.name}
                 translationText={english.text}
                 arabicText={arabic.text}
-                backgroundUrl={bgImage}
+                backgroundUrl={bgSlots[activeSlot]}
                 onToast={showToast}
               />
             )}
