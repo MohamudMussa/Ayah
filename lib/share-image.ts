@@ -274,21 +274,29 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number,
 export async function shareAyahImage(blob: Blob, reference: string): Promise<void> {
   const file = new File([blob], `ayah-${reference.replace(':', '-')}.png`, { type: 'image/png' })
 
-  if (navigator.share && navigator.canShare?.({ files: [file] })) {
-    await navigator.share({
-      files: [file],
-      title: `Quran ${reference}`,
-      text: `Quran ${reference} — www.aayah.one`,
-    })
-  } else {
-    // Fallback: download the image
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = file.name
-    a.click()
-    URL.revokeObjectURL(url)
+  // Try native sharing first (mobile)
+  try {
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
+      await navigator.share({
+        files: [file],
+        title: `Quran ${reference}`,
+        text: `Quran ${reference} — www.aayah.one`,
+      })
+      return
+    }
+  } catch (err: unknown) {
+    // User cancelled the share dialog — not an error
+    if (err instanceof Error && err.name === 'AbortError') return
+    // Other share errors — fall through to download
   }
+
+  // Fallback: download the image
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = file.name
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
 /**

@@ -34,7 +34,7 @@ export default function FilmGrain() {
   return (
     <div
       ref={ref}
-      className="fixed inset-0 pointer-events-none z-[9998]"
+      className="fixed inset-0 pointer-events-none z-[39]"
       style={{ backgroundRepeat: 'repeat' }}
       aria-hidden="true"
     />

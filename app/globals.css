@@ -92,13 +92,14 @@ html {
 }
 
 /* Fuji film camera effect — warm tint + vignette overlay */
+/* z-index 40 = above page content, below modals (z-50) */
 body::before,
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 40;
 }
 
 /* Warm color tint */

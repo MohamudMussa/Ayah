@@ -55,10 +55,10 @@ export default function ShareSheet({
       hapticSuccess()
       recordShare()
       onShareComplete?.()
-      onToast?.('Image shared!', 'success')
       onClose()
-    } catch {
-      onToast?.('Share cancelled', 'error')
+    } catch (err) {
+      console.error('Share error:', err)
+      // Don't show error for user cancellation
     } finally {
       setGenerating(null)
     }
