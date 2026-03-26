@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Smartphone, Square, Monitor, Copy, Loader2, Check } from 'lucide-react'
 import { renderAyahImage, shareAyahImage, copyImageToClipboard, type ShareFormat } from '@/lib/share-image'
@@ -25,7 +26,7 @@ const formats: { id: ShareFormat; label: string; desc: string; icon: typeof Smar
   { id: 'landscape', label: 'Wide', desc: 'Facebook / Desktop', icon: Monitor },
 ]
 
-export default function ShareSheet({
+function ShareSheetContent({
   isOpen,
   onClose,
   arabicText,
@@ -58,7 +59,6 @@ export default function ShareSheet({
       onClose()
     } catch (err) {
       console.error('Share error:', err)
-      // Don't show error for user cancellation
     } finally {
       setGenerating(null)
     }
@@ -83,7 +83,6 @@ export default function ShareSheet({
         onToast?.('Image copied to clipboard!', 'success')
         setTimeout(() => setCopied(false), 2000)
       } else {
-        // Fallback: download
         await shareAyahImage(blob, reference)
         onToast?.('Image downloaded!', 'success')
       }
@@ -99,13 +98,23 @@ export default function ShareSheet({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop — covers entire viewport */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
             onClick={onClose}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
+              zIndex: 9990,
+            }}
           />
 
           {/* Sheet */}
@@ -114,8 +123,15 @@ export default function ShareSheet({
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-xl rounded-t-2xl border-t border-white/10 p-5 pb-8"
-            style={{ paddingBottom: 'max(2rem, env(safe-area-inset-bottom))' }}
+            style={{
+              position: 'fixed',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 9991,
+              paddingBottom: 'max(2rem, env(safe-area-inset-bottom))',
+            }}
+            className="bg-gray-900/95 backdrop-blur-xl rounded-t-2xl border-t border-white/10 p-5"
           >
             {/* Handle */}
             <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4" />
@@ -165,4 +181,9 @@ export default function ShareSheet({
       )}
     </AnimatePresence>
   )
+}
+
+export default function ShareSheet(props: ShareSheetProps) {
+  if (typeof window === 'undefined') return null
+  return createPortal(<ShareSheetContent {...props} />, document.body)
 }

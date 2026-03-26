@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, BookmarkX, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useBookmarks } from '@/hooks/useBookmarks'
 
 interface BookmarksPanelProps {
@@ -11,11 +12,10 @@ interface BookmarksPanelProps {
   onSelect: (reference: string) => void
 }
 
-export default function BookmarksPanel({ isOpen, onClose, onSelect }: BookmarksPanelProps) {
+function BookmarksPanelContent({ isOpen, onClose, onSelect }: BookmarksPanelProps) {
   const { bookmarks, clear, refresh } = useBookmarks()
   const [showConfirm, setShowConfirm] = useState(false)
 
-  // Re-read localStorage each time the panel opens
   useEffect(() => {
     if (isOpen) refresh()
   }, [isOpen, refresh])
@@ -29,14 +29,24 @@ export default function BookmarksPanel({ isOpen, onClose, onSelect }: BookmarksP
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop — inline styles to avoid stacking context issues */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
             onClick={onClose}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
+              zIndex: 9990,
+            }}
           />
 
           {/* Panel */}
@@ -45,7 +55,15 @@ export default function BookmarksPanel({ isOpen, onClose, onSelect }: BookmarksP
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-sm"
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 9991,
+              width: '100%',
+              maxWidth: '24rem',
+            }}
           >
             <div className="h-full flex flex-col glass-card rounded-none rounded-l-2xl border-r-0">
               {/* Header */}
@@ -154,4 +172,9 @@ export default function BookmarksPanel({ isOpen, onClose, onSelect }: BookmarksP
       )}
     </AnimatePresence>
   )
+}
+
+export default function BookmarksPanel(props: BookmarksPanelProps) {
+  if (typeof window === 'undefined') return null
+  return createPortal(<BookmarksPanelContent {...props} />, document.body)
 }
