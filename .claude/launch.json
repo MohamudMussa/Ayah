@@ -16,14 +16,26 @@
     {
       "name": "Funnel Preview",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "3456", "--directory", "/Users/abushaakirah/webinar-funnel"],
+      "runtimeArgs": ["-m", "http.server", "3456", "--directory", "/Users/abushaakirah/Code/ima-accelerator/webinar-funnel"],
       "port": 3456
     },
     {
       "name": "Abu Ecom",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "5174", "--directory", "/Users/abushaakirah/abuecom website"],
+      "runtimeArgs": ["-m", "http.server", "5174", "--directory", "/Users/abushaakirah/Code/abu-ecom/abuecom-website"],
       "port": 5174
+    },
+    {
+      "name": "Ousama Funnel",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4321", "--directory", "/Users/abushaakirah/Code/growth-clients/ousama-funnel"],
+      "port": 4321
+    },
+    {
+      "name": "Yaseen Funnel",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4455", "--directory", "/Users/abushaakirah/Code/growth-clients/yaseen-funnel"],
+      "port": 4455
     }
   ]
 }

@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npx next:*)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Read(//Users/abushaakirah/Library/Developer/CoreSimulator/Devices/**)",
+      "Bash(xcrun simctl *)"
     ]
   }
 }
